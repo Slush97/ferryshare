@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue';
 import { invoke } from '@tauri-apps/api/core';
 import HomePage from './components/HomePage.vue';
-import TitleBar from './composables/TitleBar.vue';
+import TitleBar from './components/TitleBar.vue';
 import { useThemeStore } from './vue_lib';
 
 const showCustomTitleBar = ref(false);

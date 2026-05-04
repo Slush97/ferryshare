@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { onMounted, onBeforeUnmount } from 'vue';
 import { open as openDialog } from '@tauri-apps/plugin-dialog';
 import {
 	AppButton, SettingRow, ThemeMode, useAppStore, useThemeStore,
@@ -18,21 +19,36 @@ async function pickDownloadFolder() {
 	if (!el) return;
 	await app.setDownloadPath(el as string);
 }
+
+function close() {
+	app.settingsOpen = false;
+}
+
+function onKeydown(e: KeyboardEvent) {
+	if (e.key === 'Escape' && app.settingsOpen) close();
+}
+
+onMounted(() => document.addEventListener('keydown', onKeydown));
+onBeforeUnmount(() => document.removeEventListener('keydown', onKeydown));
 </script>
 
 <template>
 	<div
 		v-if="app.settingsOpen"
-		class="absolute z-10 w-full h-full flex justify-center items-center
-		       bg-ink-900/40 backdrop-blur-sm">
+		class="absolute inset-0 z-20 flex justify-center items-center
+		       bg-ink-900/40 backdrop-blur-sm"
+		@click.self="close">
 		<div
+			role="dialog"
+			aria-modal="true"
+			aria-labelledby="settings-title"
 			class="paper-card border border-surface-200/60 dark:border-surface-700
-		            rounded-md p-4 w-[24rem] text-ink-800 dark:text-ink-100">
+		            rounded-md p-4 w-[24rem] text-ink-800 dark:text-ink-100 shadow-2xl">
 			<div class="flex flex-row justify-between items-center">
-				<h3 class="font-serif text-xl">
+				<h3 id="settings-title" class="font-serif text-xl">
 					Settings
 				</h3>
-				<AppButton size="sm" @click="app.settingsOpen = false">
+				<AppButton size="sm" @click="close">
 					Close
 				</AppButton>
 			</div>

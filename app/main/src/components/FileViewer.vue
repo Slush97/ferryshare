@@ -57,7 +57,11 @@ onBeforeUnmount(() => document.removeEventListener('keydown', onKey));
 		class="absolute inset-0 z-30 flex items-center justify-center
 		       bg-ink-900/55 backdrop-blur-sm p-4"
 		@click.self="viewer.close()">
-		<div class="paper-card w-full max-w-5xl h-[90%] rounded-md flex flex-col overflow-hidden">
+		<div
+			role="dialog"
+			aria-modal="true"
+			aria-labelledby="viewer-title"
+			class="paper-card w-full max-w-5xl h-[90%] rounded-md flex flex-col overflow-hidden shadow-2xl">
 			<!-- Header -->
 			<div
 				class="flex items-center gap-3 px-4 py-3
@@ -68,7 +72,7 @@ onBeforeUnmount(() => document.removeEventListener('keydown', onKey));
 				            text-accent-700 dark:text-accent-300 bg-accent-500/5">
 					{{ kind === 'unknown' ? (ext || 'file') : kind }}
 				</div>
-				<span class="font-mono text-xs truncate flex-1 text-ink-700 dark:text-ink-100">
+				<span id="viewer-title" class="font-mono text-xs truncate flex-1 text-ink-700 dark:text-ink-100">
 					{{ filename }}
 				</span>
 				<AppButton size="sm" @click="openExternal">

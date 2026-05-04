@@ -56,9 +56,13 @@ function viewFile(path: string) {
 	<div
 		class="paper-card w-full rounded-md flex flex-row gap-6 p-4 mb-3
 		       transition-colors
-		       hover:border-accent-700/40 dark:hover:border-accent-300/40"
+		       hover:border-accent-700/40 dark:hover:border-accent-300/40
+		       focus-visible:ring-2 focus-visible:ring-accent-500 outline-none"
 		:class="{ 'cursor-pointer': item.endpoint }"
-		@click="onCardClick">
+		:role="item.endpoint ? 'button' : undefined"
+		:tabindex="item.endpoint ? 0 : undefined"
+		@click="onCardClick"
+		@keydown.enter.space.prevent="onCardClick">
 		<ItemSide :item="item" />
 
 		<div class="flex-1 flex flex-col text-sm min-w-0" :class="{ 'justify-center': !item.state }">
