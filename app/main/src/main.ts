@@ -18,7 +18,7 @@ import App from './App.vue'
 	} catch { /* noop */ }
 })();
 
-if (process.env.NODE_ENV === 'development') {
+if (import.meta.env.DEV) {
 	devtools.connect('http://localhost', 8098)
 }
 

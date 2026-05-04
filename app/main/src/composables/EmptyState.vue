@@ -27,10 +27,14 @@ async function pickFiles() {
 				viewBox="-100 -100 200 200"
 				class="absolute inset-0 w-full h-full text-accent-700/45 dark:text-accent-300/40"
 				aria-hidden="true">
-				<circle cx="0" cy="0" r="92" fill="none" stroke="currentColor"
-				        stroke-width="1" stroke-dasharray="2.4 4.8" />
-				<circle cx="0" cy="0" r="76" fill="none" stroke="currentColor"
-				        stroke-width="0.6" />
+				<circle
+					cx="0" cy="0" r="92" fill="none"
+					stroke="currentColor"
+					stroke-width="1" stroke-dasharray="2.4 4.8" />
+				<circle
+					cx="0" cy="0" r="76" fill="none"
+					stroke="currentColor"
+					stroke-width="0.6" />
 			</svg>
 			<div class="status-indicator status-indicator--xl relative">
 				<div class="circle circle--animated circle-main" />

@@ -24,9 +24,10 @@ const current = computed(() => OPTIONS.find((o) => o.value === app.visibility) ?
 
 const dotClass = computed(() => {
 	switch (app.visibility) {
-		case 'Visible':      return 'bg-accent-600 dark:bg-accent-300';
-		case 'Invisible':    return 'bg-ink-500/50 dark:bg-ink-300/40';
-		case 'Temporarily':  return 'bg-amber-600 dark:bg-amber-400';
+	case 'Visible':      return 'bg-accent-600 dark:bg-accent-300';
+	case 'Invisible':    return 'bg-ink-500/50 dark:bg-ink-300/40';
+	case 'Temporarily':  return 'bg-amber-600 dark:bg-amber-400';
+	default:             return 'bg-ink-500/50 dark:bg-ink-300/40';
 	}
 });
 
@@ -99,7 +100,9 @@ onBeforeUnmount(() => document.removeEventListener('mousedown', onDocMouseDown))
 					<span class="font-medium text-ink-800 dark:text-ink-100">{{ opt.label }}</span>
 					<span v-if="opt.value === app.visibility" class="text-accent-700 dark:text-accent-300 text-xs">●</span>
 				</div>
-				<div class="text-xs text-ink-500 dark:text-ink-300 mt-0.5 italic">{{ opt.hint }}</div>
+				<div class="text-xs text-ink-500 dark:text-ink-300 mt-0.5 italic">
+					{{ opt.hint }}
+				</div>
 			</button>
 		</div>
 	</div>

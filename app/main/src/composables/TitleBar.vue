@@ -36,27 +36,36 @@ async function close() { await getCurrentWindow().close(); }
 		</div>
 
 		<div class="flex items-center gap-1">
-			<button type="button"
+			<button
+				type="button"
 				class="w-7 h-7 rounded-md inline-flex items-center justify-center
 				       hover:bg-accent-700/10 dark:hover:bg-accent-300/10 transition active:scale-95"
 				@click="minimize" aria-label="Minimize">
 				<svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><rect x="2" y="5.5" width="8" height="1" /></svg>
 			</button>
-			<button type="button"
+			<button
+				type="button"
 				class="w-7 h-7 rounded-md inline-flex items-center justify-center
 				       hover:bg-accent-700/10 dark:hover:bg-accent-300/10 transition active:scale-95"
 				@click="toggleMax" :aria-label="isMaximized ? 'Restore' : 'Maximize'">
-				<svg v-if="!isMaximized" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1"><rect x="2.5" y="2.5" width="7" height="7" /></svg>
-				<svg v-else width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1">
+				<svg
+					v-if="!isMaximized" width="12" height="12" viewBox="0 0 12 12"
+					fill="none" stroke="currentColor" stroke-width="1"><rect x="2.5" y="2.5" width="7" height="7" /></svg>
+				<svg
+					v-else width="12" height="12" viewBox="0 0 12 12"
+					fill="none" stroke="currentColor" stroke-width="1">
 					<rect x="3.5" y="3.5" width="6" height="6" />
 					<path d="M5 3.5 V2 H10 V7 H8.5" />
 				</svg>
 			</button>
-			<button type="button"
+			<button
+				type="button"
 				class="w-7 h-7 rounded-md inline-flex items-center justify-center
 				       hover:bg-red-700 hover:text-ink-50 transition active:scale-95"
 				@click="close" aria-label="Close">
-				<svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.2">
+				<svg
+					width="12" height="12" viewBox="0 0 12 12" fill="none"
+					stroke="currentColor" stroke-width="1.2">
 					<path d="M2.5 2.5 L9.5 9.5 M9.5 2.5 L2.5 9.5" />
 				</svg>
 			</button>

@@ -8,7 +8,8 @@ defineProps<{ openUrl: (url: string) => void }>();
 </script>
 
 <template>
-	<div class="flex flex-row justify-between items-center gap-4 px-6 py-4
+	<div
+		class="flex flex-row justify-between items-center gap-4 px-6 py-4
 	            border-b border-surface-200 dark:border-surface-800">
 		<div class="min-w-0">
 			<h4 class="text-[10px] uppercase tracking-[0.18em] text-ink-500 dark:text-ink-300 font-medium">

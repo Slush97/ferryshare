@@ -20,7 +20,8 @@ onMounted(async () => {
 </script>
 
 <template>
-	<div class="w-screen h-screen flex flex-col select-none cursor-default
+	<div
+		class="w-screen h-screen flex flex-col select-none cursor-default
 	            bg-surface-0 dark:bg-surface-950 text-zinc-900 dark:text-zinc-100">
 		<TitleBar v-if="showCustomTitleBar" />
 		<div class="flex-1 min-h-0">

@@ -25,11 +25,16 @@ async function pickDownloadFolder() {
 		v-if="app.settingsOpen"
 		class="absolute z-10 w-full h-full flex justify-center items-center
 		       bg-ink-900/40 backdrop-blur-sm">
-		<div class="paper-card border border-surface-200/60 dark:border-surface-700
+		<div
+			class="paper-card border border-surface-200/60 dark:border-surface-700
 		            rounded-md p-4 w-[24rem] text-ink-800 dark:text-ink-100">
 			<div class="flex flex-row justify-between items-center">
-				<h3 class="font-serif text-xl">Settings</h3>
-				<AppButton size="sm" @click="app.settingsOpen = false">Close</AppButton>
+				<h3 class="font-serif text-xl">
+					Settings
+				</h3>
+				<AppButton size="sm" @click="app.settingsOpen = false">
+					Close
+				</AppButton>
 			</div>
 
 			<div class="py-4 flex flex-col gap-1">
@@ -38,7 +43,8 @@ async function pickDownloadFolder() {
 				</div>
 				<div class="rounded-md p-3 flex flex-row justify-between items-center">
 					<span>Theme</span>
-					<div class="inline-flex rounded-md border border-surface-200 dark:border-surface-700
+					<div
+						class="inline-flex rounded-md border border-surface-200 dark:border-surface-700
 					            overflow-hidden text-sm">
 						<button
 							v-for="m in THEME_MODES" :key="m"
@@ -66,7 +72,8 @@ async function pickDownloadFolder() {
 					       hover:bg-accent-700/10 dark:hover:bg-accent-300/10 transition-colors"
 					@click="pickDownloadFolder">
 					<span>Change download folder</span>
-					<span class="overflow-hidden whitespace-nowrap text-ellipsis text-xs max-w-80
+					<span
+						class="overflow-hidden whitespace-nowrap text-ellipsis text-xs max-w-80
 					             text-ink-500 dark:text-ink-300 font-mono">
 						&gt; {{ app.downloadPath ?? "OS User's download folder" }}
 					</span>

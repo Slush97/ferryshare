@@ -8,10 +8,10 @@ const props = defineProps<{ item: DisplayedItem }>();
 const icon = computed<IconName>(() => {
 	if (props.item.state === 'Finished') return 'check-double';
 	switch (props.item.deviceType) {
-		case 'Laptop': return 'laptop';
-		case 'Phone': return 'phone';
-		case 'Tablet': return 'tablet';
-		default: return 'computer';
+	case 'Laptop': return 'laptop';
+	case 'Phone': return 'phone';
+	case 'Tablet': return 'tablet';
+	default: return 'computer';
 	}
 });
 
