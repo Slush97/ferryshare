@@ -7,7 +7,8 @@ import { OutboundPayload } from '@martichou/core_lib/bindings/OutboundPayload';
 import { SendInfo } from '@martichou/core_lib/bindings/SendInfo';
 import { ChannelAction } from '@martichou/core_lib';
 
-import { DisplayedItem, ToDelete, stateToDisplay } from '../types';
+import { DisplayedItem, ToDelete, stateToDisplay, ToastType } from '../types';
+import { useToastStore } from './useToastStore';
 
 export const useTransfersStore = defineStore('transfers', () => {
 	const requests = ref<ChannelMessage[]>([]);
@@ -63,15 +64,26 @@ export const useTransfersStore = defineStore('transfers', () => {
 		if (cm.state === 'Disconnected') {
 			toDelete.value.push({ id: cm.id, triggered: Date.now() });
 		}
+		const prev = idx !== -1 ? requests.value[idx] : undefined;
 		if (idx !== -1) {
-			const prev = requests.value[idx];
 			requests.value.splice(idx, 1, {
 				...cm,
-				state: cm.state ?? prev.state,
-				meta: cm.meta ?? prev.meta,
+				state: cm.state ?? prev!.state,
+				meta: cm.meta ?? prev!.meta,
 			});
 		} else {
 			requests.value.push(cm);
+		}
+
+		const wasSending = ['SentIntroduction', 'SendingFiles'].includes(prev?.state ?? '');
+		if (cm.state === 'Finished' && (wasSending || outboundPayload.value)) {
+			const id = cm.id;
+			const toasts = useToastStore();
+			toasts.addToast('File sent', ToastType.Success);
+			setTimeout(() => {
+				removeRequest(id);
+				clearSending();
+			}, 1200);
 		}
 	}
 
