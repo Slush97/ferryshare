@@ -1,222 +1,197 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 @layer utilities {
-    /* Chrome, Safari and Opera */
-    .no-scrollbar::-webkit-scrollbar {
-        display: none;
-    }
-    .no-scrollbar {
-        -ms-overflow-style: none;
-        /* IE and Edge */
-        scrollbar-width: none;
-        /* Firefox */
-    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 }
 
-html,
-body,
-#app {
-    font-family: 'Montserrat', sans-serif;
-	outline: 1px solid transparent;
-	-webkit-backface-visibility: hidden;
-	transform: translateZ(0);
-	will-change: transform;
-	-webkit-perspective: 1000;
+html, body, #app {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    outline: 1px solid transparent;
+    -webkit-backface-visibility: hidden;
+    transform: translateZ(0);
+    will-change: transform;
+    -webkit-perspective: 1000;
 }
 
+/* === Paper texture ============================================ */
+/*
+ * Single layer of fine fractal-noise speckle, shared across page and cards
+ * so the whole UI feels like one continuous paper.
+ */
+.bg-paper {
+    background-color: #f1e8d5;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 220'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.22 0 0 0 0 0.16 0 0 0 0 0.09 0 0 0 0.22 0'/></filter><rect width='100%25' height='100%25' filter='url(%23p)'/></svg>");
+    background-size: 220px 220px;
+    background-blend-mode: multiply;
+}
+.dark .bg-paper {
+    background-color: #25201a;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 220'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.93 0 0 0 0 0.85 0 0 0 0 0.72 0 0 0 0.13 0'/></filter><rect width='100%25' height='100%25' filter='url(%23p)'/></svg>");
+    background-blend-mode: screen;
+}
+
+/* Sheet of paper on the desk — same fiber, slightly brighter base, hairline border + soft shadow */
+.paper-card {
+    background-color: #fcf5e2;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 220'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.22 0 0 0 0 0.16 0 0 0 0 0.09 0 0 0 0.16 0'/></filter><rect width='100%25' height='100%25' filter='url(%23p)'/></svg>");
+    background-size: 220px 220px;
+    background-blend-mode: multiply;
+    border: 1px solid rgba(94, 80, 57, 0.18);
+    box-shadow:
+        0 1px 0 rgba(0, 0, 0, 0.04),
+        0 6px 18px -8px rgba(58, 44, 24, 0.20),
+        0 1px 2px rgba(58, 44, 24, 0.10);
+}
+.dark .paper-card {
+    background-color: #463c2d;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 220'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.93 0 0 0 0 0.85 0 0 0 0 0.72 0 0 0 0.10 0'/></filter><rect width='100%25' height='100%25' filter='url(%23p)'/></svg>");
+    background-blend-mode: screen;
+    border: 1px solid rgba(0, 0, 0, 0.55);
+    box-shadow:
+        0 1px 0 rgba(255, 232, 196, 0.04) inset,
+        0 1px 0 rgba(0, 0, 0, 0.4),
+        0 10px 24px -10px rgba(0, 0, 0, 0.6),
+        0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+/* Drag-frame: shown when files are being dragged over the window */
+.drag-frame {
+    border: 2px dashed rgba(160, 90, 43, 0.85);
+    border-radius: 0.75rem;
+    background-color: rgba(160, 90, 43, 0.04);
+    pointer-events: none;
+}
+.dark .drag-frame {
+    border-color: rgba(212, 160, 91, 0.75);
+    background-color: rgba(212, 160, 91, 0.05);
+}
+
+/* Scrollbar */
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb {
+    background: rgba(94, 80, 57, 0.35);
+    border-radius: 8px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+    background: rgba(94, 80, 57, 0.55);
+    background-clip: padding-box;
+    border: 2px solid transparent;
+}
+
+/* === Status indicator (pulse) ================================ */
 .status-indicator {
     position: relative;
     display: inline-block;
     width: 48px;
-    height: 48px
+    height: 48px;
 }
-
 .status-indicator .circle {
     position: absolute;
-    top: 18px;
-    left: 18px;
-    width: 12px;
-    height: 12px;
-    border-radius: 100px
+    top: 18px; left: 18px;
+    width: 12px; height: 12px;
+    border-radius: 100px;
 }
-
-.status-indicator--xl {
-    width: 72px;
-    height: 72px
-}
-
-.status-indicator--xl .circle {
-    position: absolute;
-    top: 27px;
-    left: 27px;
-    width: 18px;
-    height: 18px;
-    border-radius: 100px
-}
+.status-indicator--xl { width: 72px; height: 72px; }
+.status-indicator--xl .circle { top: 27px; left: 27px; width: 18px; height: 18px; }
 
 .status-indicator .circle.circle--animated {
     animation-iteration-count: infinite;
     animation-delay: 1s;
     animation-fill-mode: backwards;
     animation-duration: 4s;
-    animation-timing-function: linear
+    animation-timing-function: linear;
 }
+.status-indicator .circle-main      { z-index: 3; @apply bg-accent-600; }
+.status-indicator .circle-secondary { z-index: 2; @apply bg-accent-600/20; }
+.status-indicator .circle-tertiary  { z-index: 1; @apply bg-accent-600/45; opacity: 1; }
+.dark .status-indicator .circle-main      { @apply bg-accent-300; }
+.dark .status-indicator .circle-secondary { @apply bg-accent-300/20; }
+.dark .status-indicator .circle-tertiary  { @apply bg-accent-300/45; }
 
-.status-indicator .circle-main {
-    z-index: 3;
-    background: #000
-}
-
-.status-indicator .circle-main.circle--animated {
-    animation-name: pulsate-main-infinite
-}
-
-.status-indicator .circle-secondary {
-    z-index: 2;
-    background: rgba(0, 0, 0, .1)
-}
-
-.status-indicator .circle-secondary.circle--animated {
-    animation-name: pulsate-secondary-infinite
-}
-
-.status-indicator .circle-tertiary {
-    z-index: 1;
-    background: rgba(0, 0, 0, .6);
-    opacity: 1
-}
-
-.status-indicator .circle-tertiary.circle--animated {
-    animation-name: pulsate-tertiary
-}
-
-.status-indicator--infinite .circle.circle--animated {
-    animation-iteration-count: infinite
-}
-
-.status-indicator--success .circle-main {
-	@apply bg-black
-}
-
-.status-indicator--success .circle-secondary {
-	@apply bg-black bg-opacity-10
-}
-
-.status-indicator--success .circle-tertiary {
-	@apply bg-black bg-opacity-40
-}
+.status-indicator .circle-main.circle--animated      { animation-name: pulsate-main-infinite; }
+.status-indicator .circle-secondary.circle--animated { animation-name: pulsate-secondary-infinite; }
+.status-indicator .circle-tertiary.circle--animated  { animation-name: pulsate-tertiary; }
+.status-indicator--infinite .circle.circle--animated { animation-iteration-count: infinite; }
 
 @keyframes pulsate-tertiary {
-    45% {
-        transform: scale(1, 1)
-    }
-    80% {
-        transform: scale(3, 3);
-        opacity: 0
-    }
-    100% {
-        transform: scale(3, 3);
-        opacity: 0
-    }
+    45%  { transform: scale(1, 1); }
+    80%  { transform: scale(3, 3); opacity: 0; }
+    100% { transform: scale(3, 3); opacity: 0; }
 }
-
 @keyframes pulsate-main-infinite {
-    20% {
-        transform: scale(1, 1)
-    }
-    45% {
-        transform: scale(1.2, 1.2)
-    }
-    55% {
-        transform: scale(1.2, 1.2)
-    }
-    80% {
-        transform: scale(1, 1)
-    }
+    20% { transform: scale(1, 1); }
+    45% { transform: scale(1.2, 1.2); }
+    55% { transform: scale(1.2, 1.2); }
+    80% { transform: scale(1, 1); }
 }
-
 @keyframes pulsate-secondary-infinite {
-    10% {
-        transform: scale(1, 1)
-    }
-    25% {
-        transform: scale(1, 1)
-    }
-    50% {
-        transform: scale(3, 3)
-    }
-    75% {
-        transform: scale(3, 3)
-    }
-    100% {
-        transform: scale(1, 1)
-    }
+    10%  { transform: scale(1, 1); }
+    25%  { transform: scale(1, 1); }
+    50%  { transform: scale(3, 3); }
+    75%  { transform: scale(3, 3); }
+    100% { transform: scale(1, 1); }
 }
 
+/* === Buttons / inputs ======================================== */
 .btn {
-	@apply h-12 min-h-12 cursor-pointer rounded-xl font-medium px-4 inline-flex justify-center items-center gap-2 hover:bg-gray-500 hover:bg-opacity-10
+    @apply h-10 min-h-10 cursor-pointer rounded-md font-medium px-4 inline-flex justify-center items-center gap-2
+           hover:bg-accent-700/10 dark:hover:bg-accent-200/10 transition-colors;
 }
 
 .checkbox {
     flex-shrink: 0;
-    --chkbg: var(--fallback-bc, oklch(var(--bc) / 1));
-    --chkfg: var(--fallback-b1, oklch(var(--b1) / 1));
-    height: 1.5rem;
-    width: 1.5rem;
+    height: 1.25rem;
+    width: 1.25rem;
     cursor: pointer;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    border-radius: var(--rounded-btn, 0.5rem);
+    border-radius: 0.25rem;
     border-width: 1px;
-    border-color: var(--fallback-bc, oklch(var(--bc) / var(--tw-border-opacity)));
-    --tw-border-opacity: .2;
+    @apply border-surface-300 dark:border-surface-700 bg-surface-0/50 dark:bg-surface-800/50;
+    transition: all 0.15s ease;
 }
-
 .checkbox:checked, .checkbox[checked=true], .checkbox[aria-checked=true] {
+    @apply bg-accent-500 border-accent-500;
+    background-image:
+        linear-gradient(-45deg, transparent 65%, theme('colors.accent.500') 65.99%),
+        linear-gradient(45deg, transparent 75%, theme('colors.accent.500') 75.99%),
+        linear-gradient(-45deg, theme('colors.accent.500') 40%, transparent 40.99%),
+        linear-gradient(45deg, theme('colors.accent.500') 30%, white 30.99%, white 40%, transparent 40.99%),
+        linear-gradient(-45deg, white 50%, theme('colors.accent.500') 50.99%);
     background-repeat: no-repeat;
-    animation: checkmark var(--animation-input, .2s) ease-out;
-    background-color: #bbf7d0;
-    background-image: linear-gradient(-45deg, transparent 65%, #bbf7d0 65.99%), linear-gradient(45deg, transparent 75%, #bbf7d0 75.99%), linear-gradient(-45deg, #bbf7d0 40%, transparent 40.99%), linear-gradient(45deg, #bbf7d0 30%, black 30.99%, black 40%, transparent 40.99%), linear-gradient(-45deg, black 50%, #bbf7d0 50.99%);
+    animation: checkmark 0.18s ease-out;
 }
 
-.checkbox:checked, .checkbox[checked=true], .checkbox[aria-checked=true] {
-	@apply bg-green-200 border-green-200 text-black;
-}
-
+/* === Progress ring =========================================== */
 .circular-progress {
-	--size: 250px;
-	--half-size: calc(var(--size) / 2);
-	--stroke-width: 12px;
-	--radius: calc((var(--size) - var(--stroke-width)) / 2);
-	--circumference: calc(var(--radius) * pi * 2);
-	--dash: calc((var(--progress) * var(--circumference)) / 100);
+    --size: 250px;
+    --half-size: calc(var(--size) / 2);
+    --stroke-width: 12px;
+    --radius: calc((var(--size) - var(--stroke-width)) / 2);
+    --circumference: calc(var(--radius) * pi * 2);
+    --dash: calc((var(--progress) * var(--circumference)) / 100);
 }
-
 .circular-progress circle {
-	cx: var(--half-size);
-	cy: var(--half-size);
-	r: var(--radius);
-	stroke-width: var(--stroke-width);
-	fill: none;
-	stroke-linecap: round;
+    cx: var(--half-size);
+    cy: var(--half-size);
+    r: var(--radius);
+    stroke-width: var(--stroke-width);
+    fill: none;
+    stroke-linecap: round;
 }
-
-.circular-progress circle.bg {
-  	stroke: #ddd;
-}
-
+.circular-progress circle.bg { @apply stroke-surface-200 dark:stroke-surface-700; }
 .circular-progress circle.fg {
-	transform: rotate(-90deg);
-	transform-origin: var(--half-size) var(--half-size);
-	stroke-dasharray: var(--dash) calc(var(--circumference) - var(--dash));
-	transition: stroke-dasharray 0.3s linear 0s;
-
-	@apply stroke-black
+    transform: rotate(-90deg);
+    transform-origin: var(--half-size) var(--half-size);
+    stroke-dasharray: var(--dash) calc(var(--circumference) - var(--dash));
+    transition: stroke-dasharray 0.3s linear 0s;
+    @apply stroke-accent-600 dark:stroke-accent-300;
 }
-
-.error circle.bg, .error circle.fg {
-    @apply !stroke-red-400
-}
+.error circle.bg, .error circle.fg { @apply !stroke-red-700 dark:!stroke-red-400; }

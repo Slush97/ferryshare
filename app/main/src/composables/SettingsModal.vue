@@ -1,70 +1,76 @@
 <script setup lang="ts">
-import { utils } from '../vue_lib';
-import { PropType } from 'vue';
-import { TauriVM } from '../vue_lib/helper/ParamsHelper';
+import { open as openDialog } from '@tauri-apps/plugin-dialog';
+import {
+	AppButton, SettingRow, ThemeMode, useAppStore, useThemeStore,
+} from '../vue_lib';
 
-const props = defineProps({
-	vm: {
-		type: Object as PropType<TauriVM>,
-		required: true
-	}
-});
+const app = useAppStore();
+const theme = useThemeStore();
 
-const emit = defineEmits(['close']);
+const THEME_MODES: ThemeMode[] = ['system', 'light', 'dark'];
 
-function openDownloadPicker() {
-	props.vm.dialogOpen({
-		title: "Select the destination for files",
+async function pickDownloadFolder() {
+	const el = await openDialog({
+		title: 'Select the destination for files',
 		directory: true,
 		multiple: false,
-	}).then(async (el) => {
-		if (el === null) {
-			return;
-		}
-
-		await utils.setDownloadPath(props.vm, el as string);
 	});
+	if (!el) return;
+	await app.setDownloadPath(el as string);
 }
 </script>
 
 <template>
-	<div v-if="vm.settingsOpen" class="absolute z-10 w-full h-full flex justify-center items-center bg-black bg-opacity-25">
-		<div class="bg-white rounded-xl shadow-xl p-4 w-[24rem]">
+	<div
+		v-if="app.settingsOpen"
+		class="absolute z-10 w-full h-full flex justify-center items-center
+		       bg-ink-900/40 backdrop-blur-sm">
+		<div class="paper-card border border-surface-200/60 dark:border-surface-700
+		            rounded-md p-4 w-[24rem] text-ink-800 dark:text-ink-100">
 			<div class="flex flex-row justify-between items-center">
-				<h3 class="font-medium text-xl">
-					Settings
-				</h3>
-				<div class="btn px-3 rounded-xl active:scale-95 transition duration-150 ease-in-out" @click="emit('close')">
-					Close
-				</div>
+				<h3 class="font-serif text-xl">Settings</h3>
+				<AppButton size="sm" @click="app.settingsOpen = false">Close</AppButton>
 			</div>
-			<div class="py-4 flex flex-col">
-				<div class="form-control hover:bg-gray-500 hover:bg-opacity-10 rounded-xl p-3">
-					<label class="cursor-pointer flex flex-row justify-between items-center" @click="utils.setAutoStart(vm, !vm.autostart)">
-						<span class="label-text">Start on boot</span>
-						<input type="checkbox" :checked="vm.autostart" class="checkbox focus:outline-none">
-					</label>
+
+			<div class="py-4 flex flex-col gap-1">
+				<div class="px-3 pt-2 pb-1 text-[10px] uppercase tracking-[0.18em] text-ink-500 dark:text-ink-300 font-medium">
+					Appearance
 				</div>
-				<div class="form-control hover:bg-gray-500 hover:bg-opacity-10 rounded-xl p-3">
-					<label class="cursor-pointer flex flex-row justify-between items-center" @click="utils.setRealClose(vm, !vm.realclose)">
-						<span class="label-text">Keep running on close</span>
-						<input type="checkbox" :checked="!vm.realclose" class="checkbox focus:outline-none">
-					</label>
+				<div class="rounded-md p-3 flex flex-row justify-between items-center">
+					<span>Theme</span>
+					<div class="inline-flex rounded-md border border-surface-200 dark:border-surface-700
+					            overflow-hidden text-sm">
+						<button
+							v-for="m in THEME_MODES" :key="m"
+							type="button"
+							class="px-3 py-1.5 transition capitalize"
+							:class="theme.mode === m
+								? 'bg-accent-600 text-ink-50'
+								: 'bg-transparent text-ink-700 dark:text-ink-100 hover:bg-accent-700/10 dark:hover:bg-accent-300/10'"
+							@click="theme.setMode(m)">
+							{{ m }}
+						</button>
+					</div>
 				</div>
-				<div class="form-control hover:bg-gray-500 hover:bg-opacity-10 rounded-xl p-3">
-					<label class="cursor-pointer flex flex-row justify-between items-center" @click="utils.setStartMinimized(vm, !vm.startminimized)">
-						<span class="label-text">Start minimized</span>
-						<input type="checkbox" :checked="vm.startminimized" class="checkbox focus:outline-none">
-					</label>
+
+				<div class="px-3 pt-3 pb-1 text-[10px] uppercase tracking-[0.18em] text-ink-500 dark:text-ink-300 font-medium">
+					Behavior
 				</div>
-				<div class="form-control hover:bg-gray-500 hover:bg-opacity-10 rounded-xl p-3">
-					<label class="cursor-pointer flex flex-col items-start" @click="openDownloadPicker()">
-						<span class="">Change download folder</span>
-						<span class="overflow-hidden whitespace-nowrap text-ellipsis text-xs max-w-80">
-							> {{ vm.downloadPath ?? 'OS User\'s download folder' }}
-						</span>
-					</label>
-				</div>
+				<SettingRow label="Start on boot" :checked="app.autostart" @toggle="app.setAutostart(!app.autostart)" />
+				<SettingRow label="Keep running on close" :checked="!app.realclose" @toggle="app.setRealclose(!app.realclose)" />
+				<SettingRow label="Start minimized" :checked="app.startminimized" @toggle="app.setStartminimized(!app.startminimized)" />
+
+				<button
+					type="button"
+					class="cursor-pointer flex flex-col items-start w-full text-left p-3 rounded-md
+					       hover:bg-accent-700/10 dark:hover:bg-accent-300/10 transition-colors"
+					@click="pickDownloadFolder">
+					<span>Change download folder</span>
+					<span class="overflow-hidden whitespace-nowrap text-ellipsis text-xs max-w-80
+					             text-ink-500 dark:text-ink-300 font-mono">
+						&gt; {{ app.downloadPath ?? "OS User's download folder" }}
+					</span>
+				</button>
 			</div>
 		</div>
 	</div>

@@ -1,29 +1,29 @@
 <script lang="ts" setup>
-import { PropType } from 'vue';
+import { computed, PropType } from 'vue';
 import { ToastType } from '../../types';
 
-defineProps({
-	id: {
-		type: Number,
-		required: true,
-	},
-	type: {
-		type: String as PropType<ToastType>,
-		default: ToastType.Success,
-	},
-	message: {
-		type: String,
-		required: true,
-	},
+const props = defineProps({
+	id: { type: Number, required: true },
+	type: { type: String as PropType<ToastType>, default: ToastType.Success },
+	message: { type: String, required: true },
 });
+
+const TONES: Record<ToastType, string> = {
+	[ToastType.Success]:
+		'bg-accent-50 dark:bg-accent-500/15 text-accent-900 dark:text-accent-200 border-accent-200 dark:border-accent-500/30',
+	[ToastType.Error]:
+		'bg-red-50 dark:bg-red-500/15 text-red-900 dark:text-red-200 border-red-200 dark:border-red-500/30',
+	[ToastType.Info]:
+		'bg-surface-100 dark:bg-surface-800 text-zinc-800 dark:text-zinc-100 border-surface-200 dark:border-surface-800',
+};
+
+const cls = computed(() => TONES[props.type]);
 </script>
 
 <template>
 	<div
-		class="w-full p-4 rounded-xl shadow-md"
-		:class="{'bg-red-100': type === ToastType.Error, 'bg-green-100': type === ToastType.Success, 'bg-blue-100': type === ToastType.Info}">
-		<span class="text-sm text-gray-800">
-			{{ message }}
-		</span>
+		class="w-full p-3 rounded-xl shadow-md border text-sm"
+		:class="cls">
+		{{ message }}
 	</div>
 </template>

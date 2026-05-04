@@ -69,6 +69,7 @@ async fn main() -> Result<(), anyhow::Error> {
             cmds::get_hostname,
             cmds::send_payload,
             cmds::send_to_rs,
+            cmds::get_use_custom_titlebar,
         ])
         .setup(|app| {
             // Setting up logging inside file for the app
@@ -78,6 +79,13 @@ async fn main() -> Result<(), anyhow::Error> {
 
             // Initialize default values for the store
             init_default(app.app_handle());
+
+            // Window decorations: off everywhere except macOS (where native chrome is preferred).
+            // The frontend draws its own titlebar when `use_custom_titlebar()` is true.
+            #[cfg(target_os = "macos")]
+            if let Some(window) = app.get_webview_window("main") {
+                let _ = window.set_decorations(true);
+            }
 
             // Initialize system Tray
             let name = MenuItemBuilder::new("RQuickShare")
