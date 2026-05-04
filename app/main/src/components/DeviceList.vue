@@ -6,8 +6,10 @@ const transfers = useTransfersStore();
 </script>
 
 <template>
-	<DeviceCard
-		v-for="item in transfers.displayedItems"
-		:key="item.id"
-		:item="item" />
+	<TransitionGroup name="fx-rise" tag="div" class="relative">
+		<DeviceCard
+			v-for="item in transfers.displayedItems"
+			:key="item.id"
+			:item="item" />
+	</TransitionGroup>
 </template>

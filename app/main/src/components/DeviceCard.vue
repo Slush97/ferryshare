@@ -54,7 +54,7 @@ function viewFile(path: string) {
 
 <template>
 	<div
-		class="paper-card w-full max-w-2xl mx-auto rounded-md flex flex-row gap-4 p-4 mb-3
+		class="paper-card w-full max-w-2xl mx-auto rounded-md flex flex-row gap-3 sm:gap-4 p-3 sm:p-4 mb-3
 		       transition-colors
 		       hover:border-accent-700/40 dark:hover:border-accent-300/40
 		       focus-visible:ring-2 focus-visible:ring-accent-500 outline-none"
@@ -71,10 +71,10 @@ function viewFile(path: string) {
 			</h4>
 
 			<div v-if="item.state === 'WaitingForUserConsent'" class="flex-1 flex flex-col justify-between">
-				<p class="mt-3">
+				<p class="mt-3 break-words">
 					Wants to share {{ item.files?.join(', ') ?? item.text_description ?? 'some file(s).' }}
 				</p>
-				<div class="flex flex-row justify-end gap-2 mt-1">
+				<div class="flex flex-row flex-wrap justify-end gap-2 mt-2">
 					<AppButton size="sm" variant="primary" @click.stop="transfers.sendCmd(item.id, 'AcceptTransfer')">
 						Accept
 					</AppButton>
@@ -93,7 +93,7 @@ function viewFile(path: string) {
 					class="overflow-hidden whitespace-nowrap text-ellipsis font-mono text-xs">
 					{{ f }}
 				</p>
-				<div class="flex flex-row justify-end gap-2 mt-1">
+				<div class="flex flex-row flex-wrap justify-end gap-2 mt-2">
 					<AppButton size="sm" @click.stop="transfers.sendCmd(item.id, 'CancelTransfer')">
 						Cancel
 					</AppButton>
@@ -103,11 +103,11 @@ function viewFile(path: string) {
 			<div v-else-if="item.state === 'Finished'" class="flex flex-col gap-2 mt-1">
 				<div class="flex flex-row items-start gap-3 min-w-0">
 					<!-- Image thumbnail strip (inline, primary visual) -->
-					<div v-if="imageThumbs.length > 0" class="flex flex-row gap-2 shrink-0">
+					<div v-if="imageThumbs.length > 0" class="flex flex-row flex-wrap gap-2 shrink-0 max-w-[calc(50%-0.5rem)]">
 						<button
 							v-for="thumb in imageThumbs" :key="thumb"
 							type="button"
-							class="w-20 h-20 rounded-md overflow-hidden border border-surface-200 dark:border-surface-700
+							class="w-14 h-14 sm:w-20 sm:h-20 rounded-md overflow-hidden border border-surface-200 dark:border-surface-700
 							       hover:border-accent-700 dark:hover:border-accent-300 transition-colors"
 							@click.stop="viewFile(thumb)">
 							<img :src="convertFileSrc(thumb)" :alt="thumb" class="w-full h-full object-cover">
@@ -146,7 +146,7 @@ function viewFile(path: string) {
 					</div>
 				</div>
 
-				<div class="flex flex-row justify-end gap-2">
+				<div class="flex flex-row flex-wrap justify-end gap-2">
 					<AppButton
 						v-if="firstPreviewable"
 						size="sm" variant="primary"
@@ -175,7 +175,7 @@ function viewFile(path: string) {
 				<p class="mt-2 italic text-ink-500 dark:text-ink-300">
 					{{ terminalState }}
 				</p>
-				<div class="flex flex-row justify-end gap-2 mt-1">
+				<div class="flex flex-row flex-wrap justify-end gap-2 mt-2">
 					<AppButton size="sm" @click.stop="transfers.removeRequest(item.id)">
 						Clear
 					</AppButton>

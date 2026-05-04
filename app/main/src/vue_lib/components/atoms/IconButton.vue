@@ -17,16 +17,18 @@ const props = withDefaults(
 const SIZES = { sm: 'h-8 w-8', md: 'h-10 w-10' };
 const ICON_SIZES = { sm: 18, md: 22 };
 const VARIANTS = {
-	ghost: 'text-zinc-700 dark:text-zinc-200 hover:bg-zinc-500/10 dark:hover:bg-zinc-300/10',
-	danger: 'text-red-600 dark:text-red-400 hover:bg-red-500/10',
+	ghost:  'text-ink-700 dark:text-ink-100 hover:bg-accent-700/10 dark:hover:bg-accent-300/10',
+	danger: 'text-red-700 dark:text-red-400 hover:bg-red-700/10',
 };
 
 const cls = computed(
 	() =>
-		'inline-flex items-center justify-center rounded-lg transition-colors active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed ' +
-		SIZES[props.size] +
-		' ' +
-		VARIANTS[props.variant]
+		'inline-flex items-center justify-center rounded-md '
+		+ 'transition-[background-color,color,transform] duration-150 ease-out '
+		+ 'active:scale-[0.94] '
+		+ 'focus-visible:ring-2 focus-visible:ring-accent-500 outline-none '
+		+ 'disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 '
+		+ SIZES[props.size] + ' ' + VARIANTS[props.variant]
 );
 </script>
 

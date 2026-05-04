@@ -23,7 +23,7 @@ const transfers = useTransfersStore();
 		</p>
 	</div>
 	<h3
-		v-else-if="!transfers.isEmpty"
+		v-else
 		class="mb-4 font-serif text-xl text-ink-800 dark:text-ink-100">
 		Nearby devices
 	</h3>

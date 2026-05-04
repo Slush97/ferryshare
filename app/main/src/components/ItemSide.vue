@@ -36,7 +36,7 @@ const isErrorState = computed(
 				class="h-14 w-14 rounded-full bg-surface-0 dark:bg-surface-900
 				       border border-surface-200 dark:border-surface-800
 				       absolute top-0 left-0 bottom-0 right-0 m-auto
-				       text-zinc-700 dark:text-zinc-200
+				       text-ink-700 dark:text-ink-100
 				       flex items-center justify-center">
 				<Icon :name="icon" :size="22" />
 			</div>
@@ -44,7 +44,7 @@ const isErrorState = computed(
 
 		<p
 			v-if="(item.state === 'WaitingForUserConsent' || item.state === 'SentIntroduction') && item.pin_code"
-			class="text-center inline-flex gap-1 mt-4 text-sm items-center text-zinc-700 dark:text-zinc-300">
+			class="text-center inline-flex gap-1 mt-4 text-sm items-center text-ink-700 dark:text-ink-300">
 			<Icon name="shield-pin" :size="16" />
 			{{ item.pin_code }}
 		</p>

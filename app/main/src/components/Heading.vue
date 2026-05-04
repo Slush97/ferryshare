@@ -10,8 +10,8 @@ defineProps<{ openUrl: (url: string) => void }>();
 <template>
 	<div
 		class="flex flex-row justify-between items-center gap-3 px-4 py-2 sm:px-6 sm:py-4
-	            border-b border-surface-200 dark:border-surface-800">
-		<div class="min-w-0">
+		       border-b border-surface-200 dark:border-surface-800">
+		<div class="min-w-0 flex-1">
 			<h4 class="text-[10px] uppercase tracking-[0.18em] text-ink-500 dark:text-ink-300 font-medium">
 				Device
 			</h4>
@@ -20,7 +20,7 @@ defineProps<{ openUrl: (url: string) => void }>();
 			</h2>
 		</div>
 
-		<div class="flex justify-center items-center gap-2 shrink-0">
+		<div class="flex justify-end items-center gap-2 shrink min-w-0">
 			<VisibilityMenu />
 
 			<AppButton
@@ -28,7 +28,7 @@ defineProps<{ openUrl: (url: string) => void }>();
 				size="sm"
 				@click="openUrl('https://github.com/Martichou/rquickshare/releases/latest')">
 				<span class="text-accent-700 dark:text-accent-300">Update</span>
-				<span class="text-xs">v{{ app.version }} → v{{ app.newVersion }}</span>
+				<span class="text-xs hidden sm:inline">v{{ app.version }} → v{{ app.newVersion }}</span>
 			</AppButton>
 			<span v-else class="text-xs text-ink-500 dark:text-ink-300 hidden sm:inline font-mono">
 				v{{ app.version }}

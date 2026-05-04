@@ -86,10 +86,11 @@ onBeforeUnmount(() => document.removeEventListener('mousedown', onDocMouseDown))
 </script>
 
 <template>
-	<div ref="root" class="relative" @keydown="onKeydown">
+	<div ref="root" class="relative min-w-0" @keydown="onKeydown">
 		<button
 			type="button"
 			class="inline-flex items-center gap-2 h-10 px-3 rounded-md text-sm font-medium
+			       max-w-full min-w-0
 			       border border-surface-200 dark:border-surface-700
 			       bg-surface-0/70 dark:bg-surface-800/70
 			       hover:bg-accent-700/5 dark:hover:bg-accent-300/5
@@ -98,45 +99,47 @@ onBeforeUnmount(() => document.removeEventListener('mousedown', onDocMouseDown))
 			:aria-expanded="open"
 			aria-haspopup="listbox"
 			@click="toggle">
-			<span class="relative w-2 h-2 rounded-full" :class="dotClass">
+			<span class="relative w-2 h-2 rounded-full shrink-0" :class="dotClass">
 				<span
 					v-if="app.visibility === 'Temporarily'"
 					class="absolute inset-0 rounded-full animate-ping bg-amber-500" />
 			</span>
-			<span>{{ trigger }}</span>
+			<span class="truncate">{{ trigger }}</span>
 			<Icon
 				name="chevron-right"
 				:size="14"
-				class="transition-transform"
+				class="transition-transform shrink-0"
 				:class="open ? 'rotate-[270deg]' : 'rotate-90'" />
 		</button>
 
-		<div
-			v-if="open"
-			role="listbox"
-			class="paper-card absolute right-0 mt-2 w-72 z-20 rounded-md
-			       border border-surface-200 dark:border-surface-700
-			       overflow-hidden shadow-xl">
-			<button
-				v-for="(opt, i) in OPTIONS" :key="opt.value"
-				ref="optionsRefs"
-				type="button"
-				role="option"
-				:aria-selected="opt.value === app.visibility"
-				class="w-full text-left px-4 py-3 text-sm transition-colors
+		<Transition name="fx-scale">
+			<div
+				v-if="open"
+				role="listbox"
+				class="paper-card absolute right-0 mt-2 w-72 z-20 rounded-md
+				       border border-surface-200 dark:border-surface-700
+				       overflow-hidden shadow-xl origin-top-right">
+				<button
+					v-for="(opt, i) in OPTIONS" :key="opt.value"
+					ref="optionsRefs"
+					type="button"
+					role="option"
+					:aria-selected="opt.value === app.visibility"
+					class="w-full text-left px-4 py-3 text-sm transition-colors
 				       hover:bg-accent-700/10 dark:hover:bg-accent-300/10
 				       focus:bg-accent-700/10 dark:focus:bg-accent-300/10 focus:outline-none"
-				:class="opt.value === app.visibility ? 'bg-accent-500/15 dark:bg-accent-400/15' : ''"
-				@click="pick(opt.value)"
-				@keydown="onOptionKeydown($event, i)">
-				<div class="flex items-center justify-between">
-					<span class="font-medium text-ink-800 dark:text-ink-100">{{ opt.label }}</span>
-					<span v-if="opt.value === app.visibility" class="text-accent-700 dark:text-accent-300 text-xs">●</span>
-				</div>
-				<div class="text-xs text-ink-500 dark:text-ink-300 mt-0.5 italic">
-					{{ opt.hint }}
-				</div>
-			</button>
-		</div>
+					:class="opt.value === app.visibility ? 'bg-accent-500/15 dark:bg-accent-400/15' : ''"
+					@click="pick(opt.value)"
+					@keydown="onOptionKeydown($event, i)">
+					<div class="flex items-center justify-between">
+						<span class="font-medium text-ink-800 dark:text-ink-100">{{ opt.label }}</span>
+						<span v-if="opt.value === app.visibility" class="text-accent-700 dark:text-accent-300 text-xs">●</span>
+					</div>
+					<div class="text-xs text-ink-500 dark:text-ink-300 mt-0.5 italic">
+						{{ opt.hint }}
+					</div>
+				</button>
+			</div>
+		</Transition>
 	</div>
 </template>
