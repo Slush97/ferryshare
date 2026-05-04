@@ -11,11 +11,10 @@ use std::sync::{Arc, Mutex};
 use rqs_lib::channel::{ChannelDirection, ChannelMessage};
 use rqs_lib::{EndpointInfo, SendInfo, State, Visibility, RQS};
 use store::get_startminimized;
-#[cfg(target_os = "macos")]
 use tauri::image::Image;
 use tauri::{
     menu::{MenuBuilder, MenuItemBuilder},
-    tray::TrayIconBuilder,
+    tray::{MouseButton, MouseButtonState, TrayIconBuilder, TrayIconEvent},
     AppHandle, Emitter, Manager, Window, WindowEvent,
 };
 use tauri_plugin_autostart::MacosLauncher;
@@ -100,14 +99,29 @@ async fn main() -> Result<(), anyhow::Error> {
                 .items(&[&show, &quit])
                 .build()?;
 
+            // macOS gets the dark silhouette since the OS auto-inverts template
+            // images per appearance; other platforms get the light variant so
+            // it stays visible on dark tray backgrounds.
             #[cfg(target_os = "macos")]
             let icon = Image::from_bytes(include_bytes!("../icons/tray.png")).unwrap();
             #[cfg(not(target_os = "macos"))]
-            let icon = app.default_window_icon().unwrap().clone();
+            let icon = Image::from_bytes(include_bytes!("../icons/tray-light.png")).unwrap();
 
             let tray = TrayIconBuilder::new()
                 .icon(icon)
                 .menu(&menu)
+                .show_menu_on_left_click(false)
+                .on_tray_icon_event(|tray, event| {
+                    if let TrayIconEvent::Click {
+                        button: MouseButton::Left,
+                        button_state: MouseButtonState::Up,
+                        ..
+                    } = event
+                    {
+                        trace!("tray_click");
+                        open_main_window(tray.app_handle());
+                    }
+                })
                 .on_menu_event(move |app, event| match event.id().as_ref() {
                     "show" => {
                         trace!("tray_show");
