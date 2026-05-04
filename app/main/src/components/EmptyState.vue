@@ -20,9 +20,9 @@ async function pickFiles() {
 </script>
 
 <template>
-	<div class="flex-1 flex flex-col items-center justify-center min-h-[22rem] py-10 relative">
+	<div class="flex-1 flex flex-col items-center justify-center gap-y-3 py-4 sm:py-8 relative">
 		<!-- Postmark: dashed perforation + inner ring around the pulse -->
-		<div class="relative w-56 h-56 mx-auto flex items-center justify-center pointer-events-none">
+		<div class="relative w-32 h-32 sm:w-44 sm:h-44 lg:w-56 lg:h-56 shrink-0 flex items-center justify-center pointer-events-none">
 			<svg
 				viewBox="-100 -100 200 200"
 				class="absolute inset-0 w-full h-full text-accent-700/45 dark:text-accent-300/40"
@@ -43,14 +43,14 @@ async function pickFiles() {
 			</div>
 		</div>
 
-		<h3 class="mt-3 font-serif text-2xl tracking-wide text-ink-800 dark:text-ink-100">
+		<h3 class="font-serif text-xl sm:text-2xl tracking-wide text-ink-800 dark:text-ink-100 text-center">
 			Ready to receive
 		</h3>
-		<p class="mt-1 text-sm italic text-ink-500 dark:text-ink-300">
+		<p class="text-xs sm:text-sm italic text-ink-500 dark:text-ink-300 text-center">
 			Listening for nearby devices
 		</p>
 
-		<div class="mt-8 flex items-center gap-3">
+		<div class="mt-2 sm:mt-4 flex flex-wrap items-center justify-center gap-x-3 gap-y-2">
 			<button
 				type="button"
 				@click="pickFiles"

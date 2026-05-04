@@ -11,12 +11,12 @@ import { EndpointInfo } from '@martichou/core_lib/bindings/EndpointInfo';
 
 import { ToastNotification, ToastType, useAppStore, useToastStore, useTransfersStore } from '../vue_lib';
 
-import SettingsModal from '../composables/SettingsModal.vue';
-import FileViewer from '../composables/FileViewer.vue';
-import Heading from '../composables/Heading.vue';
-import OutboundPanel from '../composables/OutboundPanel.vue';
-import ContentStatus from '../composables/ContentStatus.vue';
-import DeviceList from '../composables/DeviceList.vue';
+import SettingsModal from './SettingsModal.vue';
+import FileViewer from './FileViewer.vue';
+import Heading from './Heading.vue';
+import OutboundPanel from './OutboundPanel.vue';
+import ContentStatus from './ContentStatus.vue';
+import DeviceList from './DeviceList.vue';
 
 const app = useAppStore();
 const transfers = useTransfersStore();
@@ -92,7 +92,7 @@ onBeforeUnmount(() => {
 
 		<Heading :open-url="openUrl" />
 
-		<div class="relative flex-1 min-h-0 flex flex-col p-4 md:p-8 overflow-y-auto">
+		<div class="relative flex-1 min-h-0 flex flex-col p-3 sm:p-4 md:p-8 overflow-y-auto">
 			<OutboundPanel />
 			<ContentStatus />
 			<DeviceList />
