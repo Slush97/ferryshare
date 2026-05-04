@@ -102,40 +102,31 @@ html, body, #app {
 
 .status-indicator .circle.circle--animated {
     animation-iteration-count: infinite;
-    animation-delay: 1s;
     animation-fill-mode: backwards;
-    animation-duration: 4s;
-    animation-timing-function: linear;
+    animation-duration: 3s;
+    animation-timing-function: ease-out;
 }
 .status-indicator .circle-main      { z-index: 3; @apply bg-accent-600; }
-.status-indicator .circle-secondary { z-index: 2; @apply bg-accent-600/20; }
-.status-indicator .circle-tertiary  { z-index: 1; @apply bg-accent-600/45; opacity: 1; }
+.status-indicator .circle-secondary { z-index: 2; @apply bg-accent-600/35; }
+.status-indicator .circle-tertiary  { z-index: 1; @apply bg-accent-600/35; }
 .dark .status-indicator .circle-main      { @apply bg-accent-300; }
-.dark .status-indicator .circle-secondary { @apply bg-accent-300/20; }
-.dark .status-indicator .circle-tertiary  { @apply bg-accent-300/45; }
+.dark .status-indicator .circle-secondary { @apply bg-accent-300/35; }
+.dark .status-indicator .circle-tertiary  { @apply bg-accent-300/35; }
 
-.status-indicator .circle-main.circle--animated      { animation-name: pulsate-main-infinite; }
-.status-indicator .circle-secondary.circle--animated { animation-name: pulsate-secondary-infinite; }
-.status-indicator .circle-tertiary.circle--animated  { animation-name: pulsate-tertiary; }
+.status-indicator .circle-main.circle--animated      { animation-name: pulsate-main; animation-duration: 2s; animation-timing-function: ease-in-out; }
+.status-indicator .circle-secondary.circle--animated { animation-name: pulsate-ring; animation-delay: 0s; }
+.status-indicator .circle-tertiary.circle--animated  { animation-name: pulsate-ring; animation-delay: 1.5s; }
 .status-indicator--infinite .circle.circle--animated { animation-iteration-count: infinite; }
 
-@keyframes pulsate-tertiary {
-    45%  { transform: scale(1, 1); }
-    80%  { transform: scale(3, 3); opacity: 0; }
-    100% { transform: scale(3, 3); opacity: 0; }
+/* Sonar-style ring: fades in from the dot, expands, fades out. */
+@keyframes pulsate-ring {
+    0%   { transform: scale(1);   opacity: 0; }
+    20%  { opacity: 1; }
+    100% { transform: scale(3.2); opacity: 0; }
 }
-@keyframes pulsate-main-infinite {
-    20% { transform: scale(1, 1); }
-    45% { transform: scale(1.2, 1.2); }
-    55% { transform: scale(1.2, 1.2); }
-    80% { transform: scale(1, 1); }
-}
-@keyframes pulsate-secondary-infinite {
-    10%  { transform: scale(1, 1); }
-    25%  { transform: scale(1, 1); }
-    50%  { transform: scale(3, 3); }
-    75%  { transform: scale(3, 3); }
-    100% { transform: scale(1, 1); }
+@keyframes pulsate-main {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.15); }
 }
 
 /* === Buttons / inputs ======================================== */

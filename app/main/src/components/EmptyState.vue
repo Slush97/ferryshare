@@ -36,7 +36,7 @@ async function pickFiles() {
 					stroke="currentColor"
 					stroke-width="0.6" />
 			</svg>
-			<div class="status-indicator status-indicator--xl relative">
+			<div class="status-indicator status-indicator--xl postmark-pulse">
 				<div class="circle circle--animated circle-main" />
 				<div class="circle circle--animated circle-secondary" />
 				<div class="circle circle--animated circle-tertiary" />
@@ -84,5 +84,19 @@ async function pickFiles() {
 .drop-hint__action {
 	font-weight: 500;
 	box-shadow: inset 0 -1px 0 currentColor;
+}
+
+/* Override the fixed-px pulse so it scales with the postmark wrapper.
+   Sized at 15% — the 3.2× sonar peak reaches ~48% of the wrapper,
+   inside the inner postmark ring (~69%). */
+.postmark-pulse {
+	width: 100%;
+	height: 100%;
+}
+.postmark-pulse .circle {
+	top: 42.5%;
+	left: 42.5%;
+	width: 15%;
+	height: 15%;
 }
 </style>
