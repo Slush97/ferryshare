@@ -12,6 +12,7 @@ import { EndpointInfo } from '@martichou/core_lib/bindings/EndpointInfo';
 import { ToastNotification, ToastType, useAppStore, useToastStore, useTransfersStore } from '../vue_lib';
 
 import SettingsModal from '../composables/SettingsModal.vue';
+import FileViewer from '../composables/FileViewer.vue';
 import Heading from '../composables/Heading.vue';
 import OutboundPanel from '../composables/OutboundPanel.vue';
 import ContentStatus from '../composables/ContentStatus.vue';
@@ -82,10 +83,12 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-	<div class="flex flex-col w-full h-full bg-paper text-ink-800 dark:text-ink-100
+	<div
+		class="flex flex-col w-full h-full bg-paper text-ink-800 dark:text-ink-100
 	            max-w-full max-h-full overflow-hidden">
 		<ToastNotification />
 		<SettingsModal />
+		<FileViewer />
 
 		<Heading :open-url="openUrl" />
 

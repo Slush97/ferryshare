@@ -70,6 +70,7 @@ async fn main() -> Result<(), anyhow::Error> {
             cmds::send_payload,
             cmds::send_to_rs,
             cmds::get_use_custom_titlebar,
+            cmds::read_text_file,
         ])
         .setup(|app| {
             // Setting up logging inside file for the app

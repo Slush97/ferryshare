@@ -12,3 +12,5 @@ mod send_to_rs;
 pub use send_to_rs::*;
 mod window_chrome;
 pub use window_chrome::*;
+mod read_file;
+pub use read_file::*;

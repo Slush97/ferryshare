@@ -14,6 +14,10 @@ export { useAppStore } from './stores/useAppStore';
 export { useTransfersStore } from './stores/useTransfersStore';
 export { useThemeStore } from './stores/useThemeStore';
 export type { ThemeMode } from './stores/useThemeStore';
+export { useViewerStore } from './stores/useViewerStore';
 
 export { settingsStore } from './storage';
 export type { IconName } from './icons/registry';
+
+export { fileKind, isPreviewable, getExtension, joinPath } from './utils/fileType';
+export type { FileKind } from './utils/fileType';
