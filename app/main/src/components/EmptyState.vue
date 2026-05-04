@@ -20,12 +20,12 @@ async function pickFiles() {
 </script>
 
 <template>
-	<div class="flex-1 flex flex-col items-center justify-center gap-y-3 py-4 sm:py-8 relative">
+	<div class="flex-1 flex flex-col items-center justify-center gap-y-3 py-4 relative">
 		<!-- Postmark: dashed perforation + inner ring around the pulse -->
-		<div class="relative w-32 h-32 sm:w-44 sm:h-44 lg:w-56 lg:h-56 shrink-0 flex items-center justify-center pointer-events-none">
+		<div class="relative aspect-square w-[clamp(5rem,28vh,14rem)] flex items-center justify-center pointer-events-none">
 			<svg
-				viewBox="-100 -100 200 200"
-				class="absolute inset-0 w-full h-full text-accent-700/45 dark:text-accent-300/40"
+				viewBox="-110 -110 220 220"
+				class="absolute inset-0 w-full h-full overflow-visible text-accent-700/45 dark:text-accent-300/40"
 				aria-hidden="true">
 				<circle
 					cx="0" cy="0" r="92" fill="none"
@@ -50,7 +50,7 @@ async function pickFiles() {
 			Listening for nearby devices
 		</p>
 
-		<div class="mt-2 sm:mt-4 flex flex-wrap items-center justify-center gap-x-3 gap-y-2">
+		<div class="mt-2 flex flex-wrap items-center justify-center gap-x-3 gap-y-2">
 			<button
 				type="button"
 				@click="pickFiles"

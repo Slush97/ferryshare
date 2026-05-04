@@ -92,10 +92,12 @@ onBeforeUnmount(() => {
 
 		<Heading :open-url="openUrl" />
 
-		<div class="relative flex-1 min-h-0 flex flex-col p-3 sm:p-4 md:p-8 overflow-y-auto">
-			<OutboundPanel />
-			<ContentStatus />
-			<DeviceList />
+		<div class="relative flex-1 min-h-0 overflow-y-auto">
+			<div class="min-h-full flex flex-col p-3 sm:p-4 md:p-8">
+				<OutboundPanel />
+				<ContentStatus />
+				<DeviceList />
+			</div>
 
 			<!-- Drag-frame: appears only while files are being dragged over the window -->
 			<div
