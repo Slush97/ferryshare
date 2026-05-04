@@ -54,7 +54,7 @@ function viewFile(path: string) {
 
 <template>
 	<div
-		class="paper-card w-full rounded-md flex flex-row gap-6 p-4 mb-3
+		class="paper-card w-full max-w-2xl mx-auto rounded-md flex flex-row gap-4 p-4 mb-3
 		       transition-colors
 		       hover:border-accent-700/40 dark:hover:border-accent-300/40
 		       focus-visible:ring-2 focus-visible:ring-accent-500 outline-none"
@@ -100,51 +100,53 @@ function viewFile(path: string) {
 				</div>
 			</div>
 
-			<div v-else-if="item.state === 'Finished'">
-				<p class="mt-2">
-					Received <span v-if="item.text_type">text</span>
-				</p>
+			<div v-else-if="item.state === 'Finished'" class="flex flex-col gap-2 mt-1">
+				<div class="flex flex-row items-start gap-3 min-w-0">
+					<!-- Image thumbnail strip (inline, primary visual) -->
+					<div v-if="imageThumbs.length > 0" class="flex flex-row gap-2 shrink-0">
+						<button
+							v-for="thumb in imageThumbs" :key="thumb"
+							type="button"
+							class="w-20 h-20 rounded-md overflow-hidden border border-surface-200 dark:border-surface-700
+							       hover:border-accent-700 dark:hover:border-accent-300 transition-colors"
+							@click.stop="viewFile(thumb)">
+							<img :src="convertFileSrc(thumb)" :alt="thumb" class="w-full h-full object-cover">
+						</button>
+					</div>
 
-				<!-- File list -->
-				<div v-if="filePaths.length > 0" class="mt-1 space-y-1">
-					<button
-						v-for="(p, i) in filePaths" :key="p"
-						type="button"
-						:disabled="!isPreviewable(p)"
-						class="block w-full text-left overflow-hidden whitespace-nowrap text-ellipsis
-						       font-mono text-xs rounded px-1 -mx-1 transition-colors
-						       enabled:hover:bg-accent-700/10 enabled:dark:hover:bg-accent-300/10
-						       enabled:hover:text-accent-700 enabled:dark:hover:text-accent-300
-						       enabled:cursor-pointer disabled:cursor-default"
-						@click.stop="isPreviewable(p) && viewFile(p)">
-						{{ item.files![i] }}
-					</button>
+					<div class="flex-1 min-w-0 flex flex-col gap-1">
+						<p class="text-xs italic text-ink-500 dark:text-ink-300">
+							Received <span v-if="item.text_type">text</span>
+						</p>
+						<!-- File list (skipped when thumbnails already represent every file) -->
+						<div v-if="filePaths.length > 0 && filePaths.length !== imageThumbs.length" class="space-y-0.5">
+							<button
+								v-for="(p, i) in filePaths" :key="p"
+								type="button"
+								:disabled="!isPreviewable(p)"
+								class="block w-full text-left overflow-hidden whitespace-nowrap text-ellipsis
+								       font-mono text-xs rounded px-1 -mx-1 transition-colors
+								       enabled:hover:bg-accent-700/10 enabled:dark:hover:bg-accent-300/10
+								       enabled:hover:text-accent-700 enabled:dark:hover:text-accent-300
+								       enabled:cursor-pointer disabled:cursor-default"
+								@click.stop="isPreviewable(p) && viewFile(p)">
+								{{ item.files![i] }}
+							</button>
+						</div>
+						<p
+							v-if="item.text_type"
+							class="!select-text cursor-text overflow-hidden whitespace-nowrap text-ellipsis font-mono text-xs">
+							{{ item.text_payload }}
+						</p>
+						<p
+							v-if="item.destination && item.files"
+							class="overflow-hidden whitespace-nowrap text-ellipsis text-xs italic text-ink-500 dark:text-ink-300">
+							Saved to {{ item.destination }}
+						</p>
+					</div>
 				</div>
 
-				<!-- Image thumbnail strip -->
-				<div v-if="imageThumbs.length > 0" class="mt-2 flex flex-row gap-2">
-					<button
-						v-for="thumb in imageThumbs" :key="thumb"
-						type="button"
-						class="w-16 h-16 rounded-md overflow-hidden border border-surface-200 dark:border-surface-700
-						       hover:border-accent-700 dark:hover:border-accent-300 transition-colors"
-						@click.stop="viewFile(thumb)">
-						<img :src="convertFileSrc(thumb)" :alt="thumb" class="w-full h-full object-cover">
-					</button>
-				</div>
-
-				<p
-					v-if="item.destination && item.files"
-					class="mt-2 overflow-hidden whitespace-nowrap text-ellipsis text-xs italic text-ink-500 dark:text-ink-300">
-					Saved to {{ item.destination }}
-				</p>
-				<p
-					v-if="item.text_type"
-					class="mt-1 !select-text cursor-text overflow-hidden whitespace-nowrap text-ellipsis font-mono text-xs">
-					{{ item.text_payload }}
-				</p>
-
-				<div class="flex flex-row justify-end gap-2 mt-2">
+				<div class="flex flex-row justify-end gap-2">
 					<AppButton
 						v-if="firstPreviewable"
 						size="sm" variant="primary"
