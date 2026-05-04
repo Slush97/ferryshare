@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { open as openDialog } from '@tauri-apps/plugin-dialog';
-import { Icon, useTransfersStore } from '../vue_lib';
+import { useTransfersStore } from '../vue_lib';
 
 const transfers = useTransfersStore();
 
@@ -20,7 +20,7 @@ async function pickFiles() {
 </script>
 
 <template>
-	<div class="flex-1 flex flex-col items-center justify-center gap-y-3 py-4 relative">
+	<div class="empty-state flex-1 flex flex-col items-center justify-center gap-y-3 py-4 relative">
 		<!-- Postmark: dashed perforation + inner ring around the pulse -->
 		<div class="relative aspect-square w-[clamp(5rem,28vh,14rem)] flex items-center justify-center pointer-events-none">
 			<svg
@@ -50,21 +50,39 @@ async function pickFiles() {
 			Listening for nearby devices
 		</p>
 
-		<div class="mt-2 flex flex-wrap items-center justify-center gap-x-3 gap-y-2">
-			<button
-				type="button"
-				@click="pickFiles"
-				class="paper-card inline-flex items-center gap-2 px-4 py-2 rounded-md
-				       text-sm font-medium text-ink-800 dark:text-ink-100
-				       hover:border-accent-700/60 dark:hover:border-accent-300/60
-				       transition-colors">
-				<Icon name="upload" :size="16" class="text-accent-700 dark:text-accent-300" />
-				<span>Choose files to share</span>
-				<span class="text-accent-700 dark:text-accent-300">→</span>
-			</button>
-			<span class="text-xs italic text-ink-500 dark:text-ink-300">
-				or drop them anywhere
+		<button
+			type="button"
+			@click="pickFiles"
+			class="drop-hint mt-3 inline-flex items-center justify-center
+			       text-xs sm:text-sm text-ink-600 dark:text-ink-200">
+			<span class="drop-hint__text">
+				Drop files anywhere to send, or
+				<span class="drop-hint__action text-accent-700 dark:text-accent-300">click to browse</span>
 			</span>
-		</div>
+		</button>
 	</div>
 </template>
+
+<style scoped>
+.drop-hint {
+	cursor: pointer;
+	background: transparent;
+	border: 0;
+	padding: 0.25rem 0.5rem;
+	opacity: 0;
+	transition: opacity 0.2s ease;
+}
+.empty-state:hover .drop-hint,
+.drop-hint:focus-visible {
+	opacity: 1;
+}
+.drop-hint:focus-visible {
+	outline: 2px solid currentColor;
+	outline-offset: 4px;
+	border-radius: 4px;
+}
+.drop-hint__action {
+	font-weight: 500;
+	box-shadow: inset 0 -1px 0 currentColor;
+}
+</style>
