@@ -754,7 +754,17 @@ impl InboundRequest {
             }
             State::ReceivedPairedKeyResult => {
                 debug!("Processing State::ReceivedPairedKeyResult");
-                self.process_introduction(v1_frame).await?;
+                // Some Android versions send additional setup frames (e.g. an extra
+                // paired-key or keepalive) before the Introduction. Wait for the
+                // actual Introduction instead of disconnecting.
+                if v1_frame.introduction.is_some() {
+                    self.process_introduction(v1_frame).await?;
+                } else {
+                    debug!(
+                        "ReceivedPairedKeyResult: ignoring non-introduction frame (type={:?})",
+                        v1_frame.r#type()
+                    );
+                }
             }
             _ => {
                 info!(
