@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { onMounted, onBeforeUnmount, provide } from 'vue';
 import { listen, UnlistenFn } from '@tauri-apps/api/event';
+import { invoke } from '@tauri-apps/api/core';
 import { getCurrentWindow } from '@tauri-apps/api/window';
 import { isPermissionGranted, requestPermission } from '@tauri-apps/plugin-notification';
-import { open as openShell } from '@tauri-apps/plugin-shell';
 import { writeText } from '@tauri-apps/plugin-clipboard-manager';
 
 import { ChannelMessage } from '@martichou/core_lib/bindings/ChannelMessage';
@@ -24,11 +24,11 @@ const toasts = useToastStore();
 
 const unlisteners: UnlistenFn[] = [];
 
-async function openUrl(url: string) {
+async function openUrl(target: string) {
 	try {
-		await openShell(url);
+		await invoke('open_path', { path: target });
 	} catch (e) {
-		toasts.addToast('Error opening URL, it may not be a valid URI', ToastType.Error);
+		toasts.addToast("Couldn't open that — it may have been moved or deleted", ToastType.Error);
 		console.error(e);
 	}
 }
