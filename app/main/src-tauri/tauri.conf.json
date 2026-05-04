@@ -45,8 +45,11 @@
     "windows": [
       {
         "title": "RQuickShare",
-        "width": 900,
-        "height": 600,
+        "width": 1000,
+        "height": 720,
+        "minWidth": 640,
+        "minHeight": 480,
+        "center": true,
         "resizable": true,
         "fullscreen": false,
         "decorations": false,
