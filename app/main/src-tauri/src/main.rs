@@ -40,8 +40,26 @@ pub struct AppState {
     pub rqs: Mutex<RQS>,
 }
 
+#[cfg(target_os = "linux")]
+fn apply_linux_webkit_workarounds() {
+    // WebKitGTK's DMABUF/compositing path crashes on some Wayland + driver combos
+    // (notably NVIDIA), surfacing as `Gdk-Message: Error 71 (Protocol error)
+    // dispatching to Wayland display`. Disabling them is safe across drivers.
+    for (k, v) in [
+        ("WEBKIT_DISABLE_DMABUF_RENDERER", "1"),
+        ("WEBKIT_DISABLE_COMPOSITING_MODE", "1"),
+    ] {
+        if std::env::var_os(k).is_none() {
+            std::env::set_var(k, v);
+        }
+    }
+}
+
 #[tokio::main]
 async fn main() -> Result<(), anyhow::Error> {
+    #[cfg(target_os = "linux")]
+    apply_linux_webkit_workarounds();
+
     // Define tauri async runtime to be tokio
     tauri::async_runtime::set(tokio::runtime::Handle::current());
 
