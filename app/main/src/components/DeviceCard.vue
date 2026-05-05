@@ -55,10 +55,8 @@ function viewFile(path: string) {
 <template>
 	<div
 		class="paper-card w-full max-w-2xl mx-auto rounded-md flex flex-row gap-3 sm:gap-4 p-3 sm:p-4 mb-3
-		       transition-colors
-		       hover:border-accent-700/40 dark:hover:border-accent-300/40
 		       focus-visible:ring-2 focus-visible:ring-accent-500 outline-none"
-		:class="{ 'cursor-pointer': item.endpoint }"
+		:class="item.endpoint ? 'paper-card-pressable cursor-pointer' : ''"
 		:role="item.endpoint ? 'button' : undefined"
 		:tabindex="item.endpoint ? 0 : undefined"
 		@click="onCardClick"
