@@ -1,22 +1,41 @@
-name: Create Release
+name: Release
+
+# Single-workflow release flow.
+#
+# 1. release-please reads conventional commits since the last release and
+#    either opens / updates a release PR (if there are changes pending), or
+#    cuts a release (if a release PR has just been merged).
+# 2. When a release is cut, the build matrix runs and uploads platform
+#    artifacts to that release.
+#
+# This collapses what used to be release-please.yml + release.yml so we don't
+# need a PAT to bridge GITHUB_TOKEN's "events from this token don't trigger
+# other workflows" rule — both jobs run inside the same workflow execution.
 
 on:
-  workflow_dispatch:
-    inputs:
-      tag_name:
-        description: 'Tag Name'
-        required: true
   push:
-    tags:
-      - '*'
+    branches: [ master ]
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
+  release_please:
+    runs-on: ubuntu-latest
+    outputs:
+      release_created: ${{ steps.rp.outputs.release_created }}
+      tag_name: ${{ steps.rp.outputs.tag_name }}
+    steps:
+      - uses: googleapis/release-please-action@v4
+        id: rp
+
   build_release:
+    needs: release_please
+    if: ${{ needs.release_please.outputs.release_created == 'true' }}
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         include:
           - os: ubuntu-24.04
@@ -73,18 +92,10 @@ jobs:
           cd ${{ github.workspace }}
           ./rename_build.sh ${{ github.workspace }}/${{ matrix.target_path }}/src-tauri/target/release/bundle/ ${{ matrix.name }}
 
-      - name: Add files to release
-        if: github.event_name != 'workflow_dispatch'
+      - name: Attach artifacts to release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ needs.release_please.outputs.tag_name }}
           files: |
             ${{ github.workspace }}/${{ matrix.target_path }}/src-tauri/target/release/bundle/*/ferry-${{ matrix.name }}*
           fail_on_unmatched_files: true
-
-      - name: Upload artifacts
-        if: github.event_name == 'workflow_dispatch'
-        uses: actions/upload-artifact@v4
-        with:
-          name: artifact-debug-ferry-${{ matrix.os }}
-          path: |
-            ${{ github.workspace }}/${{ matrix.target_path }}/src-tauri/target/release/bundle/*/ferry-${{ matrix.name }}*
