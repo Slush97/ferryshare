@@ -116,7 +116,7 @@ onBeforeUnmount(() => document.removeEventListener('mousedown', onDocMouseDown))
 			<div
 				v-if="open"
 				role="listbox"
-				class="paper-card no-airmail absolute right-0 mt-2 w-72 z-20 rounded-md
+				class="paper-card absolute right-0 mt-2 w-72 z-20 rounded-md
 				       border border-surface-200 dark:border-surface-700
 				       overflow-hidden shadow-xl origin-top-right">
 				<button

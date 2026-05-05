@@ -12,7 +12,7 @@ const fileLabel = computed(() => `${files.value.length} ${files.value.length ===
 	<Transition name="fx-rise">
 		<div
 			v-if="transfers.outboundPayload"
-			class="paper-card mb-4 rounded-md p-4
+			class="paper-card w-full max-w-2xl mx-auto mb-4 rounded-md p-4
 			       border border-accent-700/30 dark:border-accent-300/30
 			       flex flex-row items-center gap-4">
 			<div
