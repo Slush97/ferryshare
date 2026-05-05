@@ -1,7 +1,7 @@
 #[macro_use]
 extern crate log;
 
-use rqs_lib::RQS;
+use ferry_lib::RQS;
 use tokio::sync::broadcast;
 
 #[tokio::main]
@@ -17,7 +17,7 @@ async fn main() -> Result<(), anyhow::Error> {
     // Init logger/tracing
     tracing_subscriber::fmt::init();
 
-    // Start the RQuickShare service
+    // Start the Ferry service
     let mut rqs = RQS::default();
     rqs.run().await?;
 

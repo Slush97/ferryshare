@@ -8,8 +8,8 @@ extern crate log;
 
 use std::sync::{Arc, Mutex};
 
-use rqs_lib::channel::{ChannelDirection, ChannelMessage};
-use rqs_lib::{EndpointInfo, SendInfo, State, Visibility, RQS};
+use ferry_lib::channel::{ChannelDirection, ChannelMessage};
+use ferry_lib::{EndpointInfo, SendInfo, State, Visibility, RQS};
 use store::get_startminimized;
 use tauri::image::Image;
 use tauri::{
@@ -94,7 +94,7 @@ async fn main() -> Result<(), anyhow::Error> {
             // Setting up logging inside file for the app
             set_up_logging(app.app_handle())?;
 
-            debug!("Starting setup of RQuickShare app");
+            debug!("Starting setup of Ferry app");
 
             // Initialize default values for the store
             init_default(app.app_handle());
@@ -107,7 +107,7 @@ async fn main() -> Result<(), anyhow::Error> {
             }
 
             // Initialize system Tray
-            let name = MenuItemBuilder::new("RQuickShare")
+            let name = MenuItemBuilder::new("Ferry")
                 .enabled(false)
                 .build(app)?;
             let show = MenuItemBuilder::with_id("show", "Show").build(app)?;
@@ -168,7 +168,7 @@ async fn main() -> Result<(), anyhow::Error> {
             tokio::task::block_in_place(|| {
                 tauri::async_runtime::block_on(async move {
                     trace!("Beginning of RQS start");
-                    // Start the RQuickShare service
+                    // Start the Ferry service
                     let mut rqs = RQS::new(visibility, port_number, download_path);
                     let (sender_file, ble_receiver) = rqs.run().await.unwrap();
 

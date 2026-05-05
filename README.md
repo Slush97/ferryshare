@@ -1,215 +1,137 @@
 <div align="center">
-  <h1>rquickshare</h1>
+  <h1>Ferry</h1>
+  <p><strong>Quick Share / Nearby Share for Linux and macOS.</strong></p>
+  <p>Send files between your phone and your computer over Wi-Fi, the same way Android phones do it to each other.</p>
 
   <p>
-    <strong>NearbyShare/QuickShare for Linux and MacOS</strong>
-  </p>
-  <p>
-
-[![CI](https://github.com/Martichou/rquickshare/actions/workflows/build.yml/badge.svg)](https://github.com/Martichou/rquickshare/actions)
-[![CI](https://github.com/Martichou/rquickshare/actions/workflows/lint.yml/badge.svg)](https://github.com/Martichou/rquickshare/actions)
-
+    <a href="https://github.com/Slush97/ferryshare/actions/workflows/build.yml"><img alt="build" src="https://github.com/Slush97/ferryshare/actions/workflows/build.yml/badge.svg"></a>
+    <a href="https://github.com/Slush97/ferryshare/actions/workflows/lint.yml"><img alt="lint" src="https://github.com/Slush97/ferryshare/actions/workflows/lint.yml/badge.svg"></a>
   </p>
 </div>
 
 ![demo image](.github/demo.png)
 
-Installation
---------------------------
-
-You simply have to download the latest release.
-
-**Important notes:**
-- The minimum GLIBC version supported is included in the pkg name.
-  - You can check yours with `ldd --version`.
-- RQuickShare was distributed with two version (main & legacy) up until v0.11.5:
-  - Legacy is for compatibility with older Ubuntu versions: [here](https://github.com/Martichou/rquickshare/releases/tag/v0.11.5).
-  - Main is for future support of newer versions of Ubuntu.
-
-#### macOS
-
-Simply install the .dmg.
-
-Note that you may have to first allow the app to install under `Settings > Privacy & Security > Security` (you should see a dialog asking for permission)
-
-#### Linux
-
-##### Install dependencies
-
-RQuickShare requires one of the following libraries to be installed:
-
-- `libayatana-appindicator`
-- `libappindicator3`
-
-The files should (in theory) install those dependencies by themselves, but if this is not the case you may have to install those manually.
-
-##### Install rquickshare
-```bash
-sudo dpkg -i r-quick-share_${VERSION}.deb
-```
-
-#### Debian
-```bash
-sudo dpkg -i r-quick-share_${VERSION}.deb
-```
-
-#### RPM
-```bash
-sudo rpm -i r-quick-share-${VERSION}.rpm
-```
-
-#### DNF (preferred over RPM)
-```bash
-sudo dnf install r-quick-share-${VERSION}.rpm
-```
-
-#### AppImage (no root required)
-
-AppImage is a little different. There's no installation needed, you simply have to give it the executable permission (+x on a chmod) to run it.
-
-```bash
-chmod +x r-quick-share_${VERSION}.AppImage
-```
-
-You can then either double click on it, or run it from the cmd line:
-
-```bash
-./r-quick-share_${VERSION}.AppImage
-```
+> **Fork notice.** Ferry is a maintained fork of [`Martichou/rquickshare`](https://github.com/Martichou/rquickshare) by Martin Andre, which is no longer actively developed. The original work is © 2024 Martin Andre and licensed under GPL-3.0; this fork preserves that license. Modifications by slush97, beginning 2026-05-05.
 
 ---
 
-<details>
-<summary>Unofficial Installation Methods</summary>
+## What it does
 
-#### AUR (Arch)
+Ferry talks the [Quick Share / Nearby Share](https://en.wikipedia.org/wiki/Quick_Share) protocol, so an Android phone (or any Quick Share-compatible device) can send files to your laptop, and your laptop can send files back. Both ends need to be on the same Wi-Fi network.
 
-For Arch Linux, you can install it from the AUR by using an AUR helper like yay:
+It is **not** a cloud sync service — there's no account, no server, nothing leaves your network.
+
+## Status
+
+Linux is the primary target and where Ferry sees daily use. macOS builds run in CI and are expected to work but get less testing. Windows is not supported.
+
+## Install
+
+Pre-built packages are published with each release: <https://github.com/Slush97/ferryshare/releases/latest>.
+
+The minimum supported GLIBC version is included in each filename — check yours with `ldd --version`.
+
+### Linux
+
+Ferry needs one of `libayatana-appindicator` or `libappindicator3` for the system tray icon. The packages should pull this in automatically; install it manually if they don't.
+
+| Format | Command |
+|---|---|
+| `.deb` (Debian / Ubuntu) | `sudo dpkg -i ferry_${VERSION}.deb` |
+| `.rpm` (Fedora / RHEL) | `sudo dnf install ferry-${VERSION}.rpm` |
+| `.AppImage` | `chmod +x ferry_${VERSION}.AppImage && ./ferry_${VERSION}.AppImage` |
+
+### macOS
+
+Open the `.dmg` and drag Ferry into Applications. The first launch may need approval at **System Settings → Privacy & Security → Security**.
+
+## Build from source
+
+See [BUILD.md](BUILD.md). Quick version:
 
 ```bash
-yay -S r-quick-share
+# core library
+cd core_lib && cargo build --release
+
+# desktop app
+cd app/main && pnpm install && pnpm dev    # dev
+cd app/main && pnpm build                  # release bundles
 ```
 
-### Nix
+## Limitations
 
-Available here: [NixOS](https://search.nixos.org/packages?channel=24.05&show=rquickshare&from=0&size=50&sort=relevance&type=packages&query=rquickshare)
+- **Wi-Fi only.** Both devices must be on the same network.
+- **mDNS-based discovery.** Public networks (cafés, airports) often block mDNS — discovery will fail.
+- **Bluetooth advert (Linux).** Ferry broadcasts a small BLE advert to wake up Android's discovery. Bluetooth is optional but strongly recommended.
 
-A nix-shell will temporarily modify your $PATH environment variable. This can be used to try a piece of software before deciding to permanently install it.
+## FAQ
+
+<details>
+<summary><b>My laptop can't see my Android phone.</b></summary>
+
+Android stops broadcasting its mDNS service most of the time, even with visibility set to "Everyone". Ferry pokes it back into action with a Bluetooth advert — make sure Bluetooth is on.
+
+If you don't have Bluetooth, two workarounds:
+1. Open the **Files** by Google app on your phone → "Nearby Share" tab. That forces mDNS to broadcast.
+2. Use a shortcut maker (e.g. [Activity Launcher](https://xdaforums.com/t/how-to-manually-create-a-homescreen-shortcut-to-a-known-unique-android-activity.4336833)) to launch one of:
+   - Activity: `com.google.android.gms.nearby.sharing.ReceiveSurfaceActivity`
+   - Action: `com.google.android.gms.RECEIVE_NEARBY` with mime `*/*`
+
+Samsung's "Quick Share" is a re-skinned, partially incompatible variant — these workarounds may not work on Samsung devices.
+</details>
+
+<details>
+<summary><b>My phone keeps appearing and disappearing while I'm trying to send.</b></summary>
+
+Expected. Android only advertises when it thinks someone is sending it something, then immediately backs off. The BLE advert keeps poking it. As long as you can complete a transfer, this is fine.
+</details>
+
+<details>
+<summary><b>The window is blank / won't render (Linux + NVIDIA).</b></summary>
+
+WebKitGTK's compositing path is broken on some NVIDIA + Wayland combos. Ferry sets `WEBKIT_DISABLE_COMPOSITING_MODE=1` and `WEBKIT_DISABLE_DMABUF_RENDERER=1` automatically at startup; if you still see issues, try launching with both env vars explicitly:
 
 ```bash
-$ nix-shell -p rquickshare
+WEBKIT_DISABLE_COMPOSITING_MODE=1 WEBKIT_DISABLE_DMABUF_RENDERER=1 ferry
 ```
 </details>
 
----
+<details>
+<summary><b>Closing the window doesn't quit the app.</b></summary>
 
-Limitations
---------------------------
+By design — Ferry minimizes to the tray so it can keep receiving transfers. Toggle **"Stop app on close"** in settings (three-dot menu) if you'd rather have close mean quit.
 
-- **Wi-Fi LAN only**. Your devices need to be on the same network for this app to work.
+To check whether it's still running: `ps aux | grep ferry`.
+</details>
 
-FAQ
---------------------------
+<details>
+<summary><b>My firewall is blocking the connection.</b></summary>
 
-### My Android device doesn't see my laptop
-
-Make sure both your devices are on the same WiFi network. mDNS communication should be allowed on the network; this may not be the case if you're on a public network (coffee shops, airports, etc.).
-
-### My laptop doesn't see my Android device
-
-For some reason, Android doesn't broadcast its mDNS service all the time, even when in "Everyone" mode.
-
-The first solution (implemented in RQuickShare for Linux) is to broadcast a bluetooth advertisement so that Android will then make its mDNS available.
-Of course, for this you need to have bluetooth on your laptop/desktop. If you don't have that, continue reading.
-
-As a workaround, you can use the "[Files](https://play.google.com/store/apps/details?id=com.google.android.apps.nbu.files)" app on your Android device and go to the "Nearby Share" tab (if it's not present, continue reading).
-
-A second workaround is to download a Shortcut maker (see [here](https://xdaforums.com/t/how-to-manually-create-a-homescreen-shortcut-to-a-known-unique-android-activity.4336833)) to create a shortcut to the particular intent:
-
-- Method A:
-	- Activity: `com.google.android.gms.nearby.sharing.ReceiveSurfaceActivity`
-
-- Method B:
-	- Action: `com.google.android.gms.RECEIVE_NEARBY`
-	- Mime type: `*/*`
-
-_Note: Samsung did something shady with Quick Share, so the above workaround may not work. Unfortunately, there's no alternative at the moment. Sorry._
-
-### When sharing a file, my phone appears and disappears "randomly"
-
-TLDR: This is normal if you're just using bluetooth (as explained in the previous point).
-
-Android will see that your laptop/desktop is trying to share a file and will reveal itself. But for some reason, Android will de-register its service from time to time and will only then be revealed again once it detects the bluetooth message again.
-
-### Once I close the app, it won't reopen
-
-Make sure the app is really closed by running:
+By default Ferry uses a random port (assigned by the OS). Pin it to a fixed value by editing the settings file:
 
 ```bash
-ps aux | grep r-quick-share
+# Linux
+$EDITOR ~/.local/share/io.github.slush97.ferry/.settings.json
+
+# macOS
+$EDITOR ~/Library/Application\ Support/io.github.slush97.ferry/.settings.json
 ```
 
-If you see that the process is still running, it's because the app is not closed. This may be an intended behavior: when closing the window, the app won't stop and instead is still running and accessible via the system tray icon. However, if your distribution doesn't support/hasn't enabled this, it may be an issue for you.
+Add `"port": 12345` (any free port). The JSON has to stay valid — watch trailing commas.
+</details>
 
-If you want to **really** close the app when clicking on the close button, you can change that inside the app by clicking on the three dots and then "Stop app on close".
+## Credits
 
-### My firewall is blocking the connection
+Ferry stands on the shoulders of:
 
-In this case, you may want to configure a static port to allow it in your firewall. You can do so by modifying the config file as follow:
+- [`Martichou/rquickshare`](https://github.com/Martichou/rquickshare) — Martin Andre's original implementation, which Ferry forks.
+- [`grishka/NearDrop`](https://github.com/grishka/NearDrop) — reference implementation for macOS.
+- [`vicr123/QNearbyShare`](https://github.com/vicr123/QNearbyShare) — Qt implementation that helped pin down the protocol.
 
-```bash
-# linux
-vim ./.local/share/dev.mandre.rquickshare/.settings.json
+## Contributing
 
-# mac
-vim Library/Application\ Support/dev.mandre.rquickshare/.settings.json
+Issues and pull requests welcome. For larger changes, open an issue first to discuss the approach.
 
-# to be sure
-find $HOME -name ".settings.json"
-```
+## License
 
-> [!WARNING]
->
-> The json must stay valid after your modification; for example, if "port" is the last item of the JSON it must not have a comma after it, otherwise the config will be reset.
-
-```json
-{
-	...existing_config...,
-	"port": 12345
-}
-```
-
-By default the port is random (the OS will decide).
-
-### The app opens but I just get a blank window or cannot run it.
-
-This happens for some users running Linux + NVIDIA cards.
-
-The workaround is to start RQuickShare with an env variable defined as follows:
-
-```bash
-env WEBKIT_DISABLE_COMPOSITING_MODE=1 rquickshare
-```
-
-Alternatively, you may try the `legacy` variant.
-
-WIP Notes
---------------------------
-
-`rquickshare` is still in development (WIP) and currently only supports Linux even though it should be compatible with macOS too. Keep in mind that the design may change between versions, so flexibility is key.
-
-Got feedback or suggestions? We'd love to hear them! Feel free to open an issue and share your thoughts.
-
-Credits
---------------------------
-
-This project wouldn't exist without those amazing open-source project:
-
-- https://github.com/grishka/NearDrop
-- https://github.com/vicr123/QNearbyShare
-
-
-Contributing
---------------------------
-
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+GPL-3.0-or-later. See [LICENSE](LICENSE). The original work is © 2024 Martin Andre; modifications © 2026 slush97.

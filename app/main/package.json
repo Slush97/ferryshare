@@ -1,5 +1,5 @@
 {
-  "name": "rquickshare",
+  "name": "ferryshare",
   "private": true,
   "type": "module",
   "scripts": {
@@ -18,7 +18,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@martichou/core_lib": "link:../../core_lib",
+    "ferry_lib": "link:../../core_lib",
     "@tauri-apps/api": "^2.11.0",
     "@tauri-apps/plugin-autostart": "^2.5.1",
     "@tauri-apps/plugin-clipboard-manager": "^2.3.2",

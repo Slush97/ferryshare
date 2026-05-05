@@ -28,16 +28,13 @@ for file in $files; do
     filename=$(basename "$file")
     extension="${filename##*.}"
 
-    # Extract the version and anything part
-    if [[ "$filename" =~ ([Rr]-?[Qq]uick[Ss]hare)_?([0-9]+\.[0-9]+\.[0-9]+)_(.*)\.${extension} ]]; then
-        version="v${BASH_REMATCH[2]}"
-        anything="${BASH_REMATCH[3]}"
-    elif [[ "$filename" =~ ([Rr]-?[Qq]uick[Ss]hare)-([0-9]+\.[0-9]+\.[0-9]+)-([0-9]+)\.(.*)\.${extension} ]]; then
-        version="v${BASH_REMATCH[2]}"
-        anything="${BASH_REMATCH[3]}-${BASH_REMATCH[4]}"
-    elif [[ "$filename" =~ ([rR]([-_][qQ]uick[-_][sS]hare))_?([0-9]+\.[0-9]+\.[0-9]+)_?(.*)\.${extension} ]]; then
+    # Match the tauri-emitted bundle name (productName is "ferry")
+    if [[ "$filename" =~ ([Ff]erry(share)?)_?([0-9]+\.[0-9]+\.[0-9]+)_(.*)\.${extension} ]]; then
         version="v${BASH_REMATCH[3]}"
         anything="${BASH_REMATCH[4]}"
+    elif [[ "$filename" =~ ([Ff]erry(share)?)-([0-9]+\.[0-9]+\.[0-9]+)-([0-9]+)\.(.*)\.${extension} ]]; then
+        version="v${BASH_REMATCH[3]}"
+        anything="${BASH_REMATCH[4]}-${BASH_REMATCH[5]}"
     else
         echo "Filename does not match the expected pattern: $filename"
         continue
@@ -46,15 +43,15 @@ for file in $files; do
     # Construct the new filename based on the presence of glibc and debug_mode
     if [ -n "$glib_ver" ]; then
         if [ -n "$debug_mode" ]; then
-            new_filename="r-quick-share-${tauri_ver}-debug_${version}_glibc-${glib_ver}_${anything}.${extension}"
+            new_filename="ferry-${tauri_ver}-debug_${version}_glibc-${glib_ver}_${anything}.${extension}"
         else
-            new_filename="r-quick-share-${tauri_ver}_${version}_glibc-${glib_ver}_${anything}.${extension}"
+            new_filename="ferry-${tauri_ver}_${version}_glibc-${glib_ver}_${anything}.${extension}"
         fi
     else
         if [ -n "$debug_mode" ]; then
-            new_filename="r-quick-share-${tauri_ver}-debug_${version}_${anything}.${extension}"
+            new_filename="ferry-${tauri_ver}-debug_${version}_${anything}.${extension}"
         else
-            new_filename="r-quick-share-${tauri_ver}_${version}_${anything}.${extension}"
+            new_filename="ferry-${tauri_ver}_${version}_${anything}.${extension}"
         fi
     fi
 

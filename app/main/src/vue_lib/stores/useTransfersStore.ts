@@ -1,11 +1,11 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 import { invoke } from '@tauri-apps/api/core';
-import { ChannelMessage } from '@martichou/core_lib/bindings/ChannelMessage';
-import { EndpointInfo } from '@martichou/core_lib/bindings/EndpointInfo';
-import { OutboundPayload } from '@martichou/core_lib/bindings/OutboundPayload';
-import { SendInfo } from '@martichou/core_lib/bindings/SendInfo';
-import { ChannelAction } from '@martichou/core_lib';
+import { ChannelMessage } from 'ferry_lib/bindings/ChannelMessage';
+import { EndpointInfo } from 'ferry_lib/bindings/EndpointInfo';
+import { OutboundPayload } from 'ferry_lib/bindings/OutboundPayload';
+import { SendInfo } from 'ferry_lib/bindings/SendInfo';
+import { ChannelAction } from 'ferry_lib';
 
 import { DisplayedItem, ToDelete, stateToDisplay, ToastType } from '../types';
 import { useToastStore } from './useToastStore';

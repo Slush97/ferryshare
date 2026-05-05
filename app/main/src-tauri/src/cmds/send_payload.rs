@@ -1,4 +1,4 @@
-use rqs_lib::SendInfo;
+use ferry_lib::SendInfo;
 
 use crate::AppState;
 

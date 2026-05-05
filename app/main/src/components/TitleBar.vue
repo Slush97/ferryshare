@@ -35,7 +35,7 @@ async function close() { await getCurrentWindow().close(); }
 		       relative z-10">
 		<div data-tauri-drag-region class="flex items-center gap-2 text-xs font-serif tracking-wide">
 			<div class="w-2 h-2 rounded-full bg-accent-600 dark:bg-accent-300" />
-			<span data-tauri-drag-region>RQuickShare</span>
+			<span data-tauri-drag-region>Ferry</span>
 		</div>
 
 		<div class="flex items-center gap-1">

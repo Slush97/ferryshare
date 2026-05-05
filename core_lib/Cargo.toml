@@ -1,8 +1,8 @@
 [package]
-name = "rqs_lib"
+name = "ferry_lib"
 version = "0.11.5"
 edition = "2021"
-authors = ["martichou"]
+authors = ["martichou", "slush97"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [[bin]]

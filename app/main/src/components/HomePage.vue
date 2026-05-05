@@ -6,8 +6,8 @@ import { getCurrentWindow } from '@tauri-apps/api/window';
 import { isPermissionGranted, requestPermission } from '@tauri-apps/plugin-notification';
 import { writeText } from '@tauri-apps/plugin-clipboard-manager';
 
-import { ChannelMessage } from '@martichou/core_lib/bindings/ChannelMessage';
-import { EndpointInfo } from '@martichou/core_lib/bindings/EndpointInfo';
+import { ChannelMessage } from 'ferry_lib/bindings/ChannelMessage';
+import { EndpointInfo } from 'ferry_lib/bindings/EndpointInfo';
 
 import { ToastNotification, ToastType, useAppStore, useToastStore, useTransfersStore } from '../vue_lib';
 

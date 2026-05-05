@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount, nextTick } from 'vue';
-import { Visibility } from '@martichou/core_lib/bindings/Visibility';
+import { Visibility } from 'ferry_lib/bindings/Visibility';
 import { Icon, useAppStore } from '../vue_lib';
 
 const app = useAppStore();

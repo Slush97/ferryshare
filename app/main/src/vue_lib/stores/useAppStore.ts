@@ -4,7 +4,7 @@ import { invoke } from '@tauri-apps/api/core';
 import { getVersion } from '@tauri-apps/api/app';
 import { enable, disable } from '@tauri-apps/plugin-autostart';
 import { gt } from 'semver';
-import { Visibility } from '@martichou/core_lib/bindings/Visibility';
+import { Visibility } from 'ferry_lib/bindings/Visibility';
 
 import { settingsStore } from '../storage';
 import {
@@ -12,7 +12,7 @@ import {
 	startminimizedKey, visibilityKey, visibilityToNumber,
 } from '../types';
 
-const RELEASE_API = 'https://api.github.com/repos/martichou/rquickshare/releases/latest';
+const RELEASE_API = 'https://api.github.com/repos/Slush97/ferryshare/releases/latest';
 
 // core_lib: TICK_INTERVAL = 60s — duration of "Temporarily" visibility before falling back to Invisible.
 export const TEMPORARY_VISIBILITY_SECONDS = 60;

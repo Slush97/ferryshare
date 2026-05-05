@@ -1,4 +1,4 @@
-use rqs_lib::Visibility;
+use ferry_lib::Visibility;
 
 use crate::AppState;
 

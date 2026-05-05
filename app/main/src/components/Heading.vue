@@ -26,7 +26,7 @@ defineProps<{ openUrl: (url: string) => void }>();
 			<AppButton
 				v-if="app.newVersion"
 				size="sm"
-				@click="openUrl('https://github.com/Martichou/rquickshare/releases/latest')">
+				@click="openUrl('https://github.com/Slush97/ferryshare/releases/latest')">
 				<span class="text-accent-700 dark:text-accent-300">Update</span>
 				<span class="text-xs hidden sm:inline">v{{ app.version }} → v{{ app.newVersion }}</span>
 			</AppButton>

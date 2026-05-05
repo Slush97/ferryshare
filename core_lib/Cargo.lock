@@ -597,6 +597,42 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9f1f227452a390804cdb637b74a86990f2a7d7ba4b7d5693aac9b4dd6defd8d6"
 
 [[package]]
+name = "ferry_lib"
+version = "0.11.5"
+dependencies = [
+ "anyhow",
+ "base64",
+ "bluer",
+ "btleplug",
+ "bytes",
+ "dbus",
+ "directories",
+ "futures",
+ "get_if_addrs",
+ "hex",
+ "hkdf 0.13.0",
+ "hmac 0.13.0",
+ "libaes",
+ "log",
+ "mdns-sd",
+ "mime_guess",
+ "num-bigint",
+ "once_cell",
+ "p256",
+ "prost",
+ "prost-build",
+ "rand",
+ "serde",
+ "sha2 0.11.0",
+ "sys_metrics",
+ "tokio",
+ "tokio-util",
+ "tracing-subscriber",
+ "ts-rs",
+ "uuid",
+]
+
+[[package]]
 name = "ff"
 version = "0.13.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1570,42 +1606,6 @@ checksum = "f8dd2a808d456c4a54e300a23e9f5a67e122c3024119acbfd73e3bf664491cb2"
 dependencies = [
  "hmac 0.12.1",
  "subtle",
-]
-
-[[package]]
-name = "rqs_lib"
-version = "0.11.5"
-dependencies = [
- "anyhow",
- "base64",
- "bluer",
- "btleplug",
- "bytes",
- "dbus",
- "directories",
- "futures",
- "get_if_addrs",
- "hex",
- "hkdf 0.13.0",
- "hmac 0.13.0",
- "libaes",
- "log",
- "mdns-sd",
- "mime_guess",
- "num-bigint",
- "once_cell",
- "p256",
- "prost",
- "prost-build",
- "rand",
- "serde",
- "sha2 0.11.0",
- "sys_metrics",
- "tokio",
- "tokio-util",
- "tracing-subscriber",
- "ts-rs",
- "uuid",
 ]
 
 [[package]]

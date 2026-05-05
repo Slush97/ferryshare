@@ -1,5 +1,5 @@
 {
-	"name": "@martichou/core_lib",
+	"name": "ferry_lib",
 	"version": "1.0.9",
 	"description": "Models being shared with the VueJS application",
 	"main": "dist/index.js",
@@ -17,13 +17,13 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/Martichou/rquickshare.git"
+		"url": "git+https://github.com/Slush97/ferryshare.git"
 	},
-	"author": "Martin ANDRE",
+	"author": "Martin ANDRE (original), slush97 (fork)",
 	"bugs": {
-		"url": "https://github.com/Martichou/rquickshare/issues"
+		"url": "https://github.com/Slush97/ferryshare/issues"
 	},
-	"homepage": "https://github.com/Martichou/rquickshare#readme",
+	"homepage": "https://github.com/Slush97/ferryshare#readme",
 	"devDependencies": {
 		"typescript": "^6.0.3"
 	}
