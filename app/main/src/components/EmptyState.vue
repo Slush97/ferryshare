@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { open as openDialog } from '@tauri-apps/plugin-dialog';
-import { useTransfersStore } from '../vue_lib';
+import { Icon, useTransfersStore } from '../vue_lib';
 
 const transfers = useTransfersStore();
 
@@ -20,7 +20,18 @@ async function pickFiles() {
 </script>
 
 <template>
-	<div class="empty-state flex-1 flex flex-col items-center justify-center gap-y-3 py-4 relative">
+	<button
+		type="button"
+		@click="pickFiles"
+		class="empty-state group flex-1 w-full flex flex-col items-center justify-center gap-y-3 py-6 px-4 relative
+		       text-left rounded-lg
+		       border-2 border-dashed transition-colors
+		       border-accent-700/15 dark:border-accent-300/15
+		       hover:border-accent-700/40 dark:hover:border-accent-300/40
+		       hover:bg-accent-700/[0.025] dark:hover:bg-accent-300/[0.04]
+		       focus-visible:outline-none
+		       focus-visible:border-accent-700/55 dark:focus-visible:border-accent-300/55
+		       focus-visible:bg-accent-700/[0.04] dark:focus-visible:bg-accent-300/[0.05]">
 		<!-- Postmark: dashed perforation + inner ring around the pulse -->
 		<div class="relative aspect-square w-[clamp(5rem,28vh,14rem)] flex items-center justify-center pointer-events-none">
 			<svg
@@ -50,42 +61,18 @@ async function pickFiles() {
 			Listening for nearby devices
 		</p>
 
-		<button
-			type="button"
-			@click="pickFiles"
-			class="drop-hint mt-3 inline-flex items-center justify-center
-			       text-xs sm:text-sm text-ink-600 dark:text-ink-200">
-			<span class="drop-hint__text">
-				Drop files anywhere to send, or
-				<span class="drop-hint__action text-accent-700 dark:text-accent-300">click to browse</span>
-			</span>
-		</button>
-	</div>
+		<div
+			class="mt-4 inline-flex items-center gap-2 text-xs sm:text-sm
+			       text-ink-600 dark:text-ink-200 transition-colors
+			       group-hover:text-accent-700 dark:group-hover:text-accent-300
+			       group-focus-visible:text-accent-700 dark:group-focus-visible:text-accent-300">
+			<Icon name="upload" :size="18" />
+			<span>Drop files anywhere or <span class="font-medium underline-offset-2 underline">click to send</span></span>
+		</div>
+	</button>
 </template>
 
 <style scoped>
-.drop-hint {
-	cursor: pointer;
-	background: transparent;
-	border: 0;
-	padding: 0.25rem 0.5rem;
-	opacity: 0;
-	transition: opacity 0.2s ease;
-}
-.empty-state:hover .drop-hint,
-.drop-hint:focus-visible {
-	opacity: 1;
-}
-.drop-hint:focus-visible {
-	outline: 2px solid currentColor;
-	outline-offset: 4px;
-	border-radius: 4px;
-}
-.drop-hint__action {
-	font-weight: 500;
-	box-shadow: inset 0 -1px 0 currentColor;
-}
-
 /* Override the fixed-px pulse so it scales with the postmark wrapper.
    Sized at 15% — the 3.2× sonar peak reaches ~48% of the wrapper,
    inside the inner postmark ring (~69%). */
