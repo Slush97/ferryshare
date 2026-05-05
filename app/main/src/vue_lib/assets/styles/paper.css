@@ -4,35 +4,16 @@
  * Single layer of fine fractal-noise speckle, shared across page and cards
  * so the whole UI feels like one continuous paper.
  */
-/*
- * Three-layer background:
- *   1. Random wrinkles — short curved strokes scattered across a viewport-
- *      sized SVG. Each wrinkle is a darker line paired with a lighter line
- *      offset by 1px so it reads as a shadow + highlight along a ridge,
- *      the way real paper catches light.
- *   2. Tiled fractal-noise paper-fiber speckle (the existing texture).
- *   3. Solid base color underneath.
- * Wrinkles stretch to the viewport so they don't repeat — every load shows
- * the same arrangement, which is what you'd expect from a single sheet of
- * paper sitting on the desk.
- */
 .bg-paper {
     background-color: #f1e8d5;
-    background-image:
-        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800' preserveAspectRatio='none'><g fill='none' stroke-linecap='round' stroke-width='1'><path d='M90 110 q35 -6 80 -2' stroke='rgba(94,80,57,0.10)'/><path d='M91 111 q35 -6 80 -2' stroke='rgba(255,250,235,0.16)'/><path d='M320 60 q55 14 110 6' stroke='rgba(94,80,57,0.09)'/><path d='M321 61 q55 14 110 6' stroke='rgba(255,250,235,0.14)'/><path d='M950 130 q40 -10 75 5' stroke='rgba(94,80,57,0.10)'/><path d='M951 131 q40 -10 75 5' stroke='rgba(255,250,235,0.16)'/><path d='M130 240 q30 8 70 0' stroke='rgba(94,80,57,0.08)'/><path d='M131 241 q30 8 70 0' stroke='rgba(255,250,235,0.14)'/><path d='M540 300 q70 -12 130 0' stroke='rgba(94,80,57,0.10)'/><path d='M541 301 q70 -12 130 0' stroke='rgba(255,250,235,0.16)'/><path d='M1020 380 q35 6 65 -4' stroke='rgba(94,80,57,0.08)'/><path d='M1021 381 q35 6 65 -4' stroke='rgba(255,250,235,0.14)'/><path d='M200 540 q50 10 100 -5' stroke='rgba(94,80,57,0.10)'/><path d='M201 541 q50 10 100 -5' stroke='rgba(255,250,235,0.16)'/><path d='M620 590 q40 -8 85 2' stroke='rgba(94,80,57,0.08)'/><path d='M621 591 q40 -8 85 2' stroke='rgba(255,250,235,0.14)'/><path d='M880 660 q30 12 70 -2' stroke='rgba(94,80,57,0.10)'/><path d='M881 661 q30 12 70 -2' stroke='rgba(255,250,235,0.16)'/><path d='M350 720 q55 -8 100 4' stroke='rgba(94,80,57,0.08)'/><path d='M351 721 q55 -8 100 4' stroke='rgba(255,250,235,0.14)'/><path d='M40 420 q24 6 50 -2' stroke='rgba(94,80,57,0.07)'/><path d='M41 421 q24 6 50 -2' stroke='rgba(255,250,235,0.12)'/><path d='M770 200 q22 -4 50 1' stroke='rgba(94,80,57,0.07)'/><path d='M771 201 q22 -4 50 1' stroke='rgba(255,250,235,0.12)'/></g></svg>"),
-        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 220'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.22 0 0 0 0 0.16 0 0 0 0 0.09 0 0 0 0.22 0'/></filter><rect width='100%25' height='100%25' filter='url(%23p)'/></svg>");
-    background-size: 100% 100%, 220px 220px;
-    background-repeat: no-repeat, repeat;
-    background-blend-mode: normal, multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 220'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.22 0 0 0 0 0.16 0 0 0 0 0.09 0 0 0 0.22 0'/></filter><rect width='100%25' height='100%25' filter='url(%23p)'/></svg>");
+    background-size: 220px 220px;
+    background-blend-mode: multiply;
 }
 .dark .bg-paper {
     background-color: #25201a;
-    background-image:
-        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800' preserveAspectRatio='none'><g fill='none' stroke-linecap='round' stroke-width='1'><path d='M90 110 q35 -6 80 -2' stroke='rgba(0,0,0,0.32)'/><path d='M91 111 q35 -6 80 -2' stroke='rgba(255,232,196,0.06)'/><path d='M320 60 q55 14 110 6' stroke='rgba(0,0,0,0.28)'/><path d='M321 61 q55 14 110 6' stroke='rgba(255,232,196,0.05)'/><path d='M950 130 q40 -10 75 5' stroke='rgba(0,0,0,0.32)'/><path d='M951 131 q40 -10 75 5' stroke='rgba(255,232,196,0.06)'/><path d='M130 240 q30 8 70 0' stroke='rgba(0,0,0,0.26)'/><path d='M131 241 q30 8 70 0' stroke='rgba(255,232,196,0.05)'/><path d='M540 300 q70 -12 130 0' stroke='rgba(0,0,0,0.32)'/><path d='M541 301 q70 -12 130 0' stroke='rgba(255,232,196,0.06)'/><path d='M1020 380 q35 6 65 -4' stroke='rgba(0,0,0,0.26)'/><path d='M1021 381 q35 6 65 -4' stroke='rgba(255,232,196,0.05)'/><path d='M200 540 q50 10 100 -5' stroke='rgba(0,0,0,0.32)'/><path d='M201 541 q50 10 100 -5' stroke='rgba(255,232,196,0.06)'/><path d='M620 590 q40 -8 85 2' stroke='rgba(0,0,0,0.26)'/><path d='M621 591 q40 -8 85 2' stroke='rgba(255,232,196,0.05)'/><path d='M880 660 q30 12 70 -2' stroke='rgba(0,0,0,0.32)'/><path d='M881 661 q30 12 70 -2' stroke='rgba(255,232,196,0.06)'/><path d='M350 720 q55 -8 100 4' stroke='rgba(0,0,0,0.26)'/><path d='M351 721 q55 -8 100 4' stroke='rgba(255,232,196,0.05)'/><path d='M40 420 q24 6 50 -2' stroke='rgba(0,0,0,0.22)'/><path d='M41 421 q24 6 50 -2' stroke='rgba(255,232,196,0.04)'/><path d='M770 200 q22 -4 50 1' stroke='rgba(0,0,0,0.22)'/><path d='M771 201 q22 -4 50 1' stroke='rgba(255,232,196,0.04)'/></g></svg>"),
-        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 220'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.93 0 0 0 0 0.85 0 0 0 0 0.72 0 0 0 0.13 0'/></filter><rect width='100%25' height='100%25' filter='url(%23p)'/></svg>");
-    background-size: 100% 100%, 220px 220px;
-    background-repeat: no-repeat, repeat;
-    background-blend-mode: normal, screen;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 220'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.93 0 0 0 0 0.85 0 0 0 0 0.72 0 0 0 0.13 0'/></filter><rect width='100%25' height='100%25' filter='url(%23p)'/></svg>");
+    background-blend-mode: screen;
 }
 
 /* Sheet of paper on the desk — same fiber, slightly brighter base, hairline border + soft shadow */
