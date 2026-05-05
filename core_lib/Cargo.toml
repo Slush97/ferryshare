@@ -18,7 +18,7 @@ dbus = { version = "0.9", features = ["vendored"] }
 [dependencies]
 anyhow = "1.0"
 base64 = "0.22"
-btleplug = { version = "0.11", optional = true }
+btleplug = { version = "0.12", optional = true }
 bytes = "1.10"
 directories = "6.0"
 futures = "0.3"
