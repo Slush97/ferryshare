@@ -9,7 +9,17 @@
   </p>
 </div>
 
-![demo image](.github/demo.png)
+<p align="center">
+  <img alt="Active transfer with completed receive and pending request" src=".github/demo.png" width="720">
+</p>
+
+<table>
+  <tr>
+    <td align="center" width="33%"><img alt="Ready to receive" src=".github/screenshot-empty.png"><br><sub>Ready to receive</sub></td>
+    <td align="center" width="33%"><img alt="Sending a file" src=".github/screenshot-sending.png"><br><sub>Sending a file</sub></td>
+    <td align="center" width="33%"><img alt="Settings" src=".github/screenshot-settings.png"><br><sub>Settings</sub></td>
+  </tr>
+</table>
 
 > **Fork notice.** Ferry is a maintained fork of [`Martichou/rquickshare`](https://github.com/Martichou/rquickshare) by Martin Andre, which is no longer actively developed. The original work is © 2024 Martin Andre and licensed under GPL-3.0; this fork preserves that license. Modifications by slush97, beginning 2026-05-05.
 
