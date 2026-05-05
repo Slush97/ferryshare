@@ -19,30 +19,31 @@
 .status-indicator .circle.circle--animated {
     animation-iteration-count: infinite;
     animation-fill-mode: backwards;
-    animation-duration: 3s;
+    animation-duration: 6s;
     animation-timing-function: ease-out;
 }
 .status-indicator .circle-main      { z-index: 3; @apply bg-accent-600; }
-.status-indicator .circle-secondary { z-index: 2; @apply bg-accent-600/35; }
-.status-indicator .circle-tertiary  { z-index: 1; @apply bg-accent-600/35; }
+.status-indicator .circle-secondary { z-index: 2; @apply bg-accent-600/25; }
+.status-indicator .circle-tertiary  { z-index: 1; @apply bg-accent-600/25; }
 .dark .status-indicator .circle-main      { @apply bg-accent-300; }
-.dark .status-indicator .circle-secondary { @apply bg-accent-300/35; }
-.dark .status-indicator .circle-tertiary  { @apply bg-accent-300/35; }
+.dark .status-indicator .circle-secondary { @apply bg-accent-300/25; }
+.dark .status-indicator .circle-tertiary  { @apply bg-accent-300/25; }
 
-.status-indicator .circle-main.circle--animated      { animation-name: pulsate-main; animation-duration: 2s; animation-timing-function: ease-in-out; }
+.status-indicator .circle-main.circle--animated      { animation-name: pulsate-main; animation-duration: 5s; animation-timing-function: ease-in-out; }
 .status-indicator .circle-secondary.circle--animated { animation-name: pulsate-ring; animation-delay: 0s; }
-.status-indicator .circle-tertiary.circle--animated  { animation-name: pulsate-ring; animation-delay: 1.5s; }
+.status-indicator .circle-tertiary.circle--animated  { animation-name: pulsate-ring; animation-delay: 3s; }
 .status-indicator--infinite .circle.circle--animated { animation-iteration-count: infinite; }
 
-/* Sonar-style ring: fades in from the dot, expands, fades out. */
+/* Sonar-style ring: fades in from the dot, expands, fades out.
+   Slower, gentler expansion + lower peak opacity for a zen breathing feel. */
 @keyframes pulsate-ring {
     0%   { transform: scale(1);   opacity: 0; }
-    20%  { opacity: 1; }
-    100% { transform: scale(3.2); opacity: 0; }
+    25%  { opacity: 0.7; }
+    100% { transform: scale(2.6); opacity: 0; }
 }
 @keyframes pulsate-main {
     0%, 100% { transform: scale(1); }
-    50%      { transform: scale(1.15); }
+    50%      { transform: scale(1.06); }
 }
 
 /* === Buttons / inputs ======================================== */
