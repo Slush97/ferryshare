@@ -1,10 +1,15 @@
 <script setup lang="ts">
-import { AppButton, IconButton, useAppStore } from '../vue_lib';
+import { AppButton, IconButton, useAppStore, useThemeStore } from '../vue_lib';
 import VisibilityMenu from './VisibilityMenu.vue';
 
 const app = useAppStore();
+const theme = useThemeStore();
 
 defineProps<{ openUrl: (url: string) => void }>();
+
+function toggleTheme() {
+	theme.setMode(theme.isDark ? 'light' : 'dark');
+}
 </script>
 
 <template>
@@ -34,6 +39,11 @@ defineProps<{ openUrl: (url: string) => void }>();
 				v{{ app.version }}
 			</span>
 
+			<IconButton
+				:icon="theme.isDark ? 'sun' : 'moon'"
+				size="sm"
+				:label="theme.isDark ? 'Switch to light theme' : 'Switch to dark theme'"
+				@click="toggleTheme" />
 			<IconButton icon="settings" size="sm" label="Settings" @click="app.settingsOpen = true" />
 		</div>
 	</div>
