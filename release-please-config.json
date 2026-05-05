@@ -30,11 +30,6 @@
 			"type": "toml",
 			"path": "app/main/src-tauri/Cargo.lock",
 			"jsonpath": "$.package[?(@.name.value == 'ferryshare')].version"
-		},
-		{
-			"type": "yaml",
-			"path": "snap/snapcraft.yaml",
-			"jsonpath": "$.version"
 		}
 	],
 	"$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json"
