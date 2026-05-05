@@ -2,23 +2,18 @@
 
 Priority order — top item is the one to do next.
 
-## 1. `prost` + `prost-build` 0.13 → 0.14
-- **Why next:** most contained of the remaining bumps; regenerates protobuf bindings at build time, wire format is stable, only API surface churn (`Message` trait, builder ergonomics).
-- **Risk:** compile churn across `core_lib`'s message handling; possible behavior diff in optional/default fields.
-- **Validation:** `cargo check` + send one file to a real Android peer.
-
-## 2. Tailwind 3 → 4
+## 1. Tailwind 3 → 4
 - **Why:** independent of the Rust side; pure frontend migration.
 - **Scope:** CSS-first config rewrite, theme tokens move into CSS, `@tailwindcss/typography` and other plugins need v4-compatible versions.
 - **Risk:** visual regressions across every component; the `paper-themed redesign` styling is tightly coupled to v3 token shape.
 - **Validation:** in-browser walk-through of every screen; deserves its own dedicated session.
 
-## 3. RustCrypto bundle: `sha2` 0.10 → 0.11, `hmac` 0.12 → 0.13, `hkdf` 0.12 → 0.13
+## 2. RustCrypto bundle: `sha2` 0.10 → 0.11, `hmac` 0.12 → 0.13, `hkdf` 0.12 → 0.13
 - **Why batched:** they share trait versions; mixing majors will cause type mismatches.
 - **Risk:** all three are used in the Nearby Share handshake / key-derivation path. Compiles fine ≠ pairs fine — silent semantic mismatch wouldn't fail to build, it would fail to authenticate.
 - **Validation:** real-device round-trip required (send + receive in both directions).
 
-## 4. `btleplug` 0.11 → 0.12
+## 3. `btleplug` 0.11 → 0.12
 - **Why:** BLE listener for advertisement detection.
 - **Risk:** majors here historically rework the adapter/event API; regressions only show with a real Bluetooth peer.
 - **Validation:** Linux + macOS + Windows ideally; minimum is one BLE-advertising peer.
@@ -33,4 +28,5 @@ Priority order — top item is the one to do next.
 - `notify-rust` 4.16.1 → 4.17.0 — `eec745a`
 - `rand` 0.9 → 0.10 (with `RngCore` → `Rng` / `RngExt` migration) — `b13d81f`
 - `ts-rs` 10 → 12 (zero diff in generated bindings) — `b13d81f`
+- `prost` + `prost-build` 0.13 → 0.14 (drop-in, no source changes) — `5cd30fa`
 - WebKitGTK Wayland workaround baked into `main.rs` — `04525dd`
