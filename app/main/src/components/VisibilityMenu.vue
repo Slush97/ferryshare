@@ -92,8 +92,7 @@ onBeforeUnmount(() => document.removeEventListener('mousedown', onDocMouseDown))
 			class="inline-flex items-center gap-2 h-10 px-3 rounded-md text-sm font-medium
 			       max-w-full min-w-0
 			       border border-surface-200 dark:border-surface-700
-			       bg-surface-0 dark:bg-surface-800
-			       hover:bg-accent-700/5 dark:hover:bg-accent-300/5
+			       hover:bg-accent-700/10 dark:hover:bg-accent-300/10
 			       text-ink-700 dark:text-ink-100 transition-colors
 			       focus-visible:ring-2 focus-visible:ring-accent-500 outline-none"
 			:aria-expanded="open"
