@@ -3,6 +3,7 @@
 Priority order — top item is the one to do next.
 
 ## Done this session
+- `src-tauri` lockfile patch sweep: `quick-xml` 0.39.2 → 0.39.3, `tao` 0.35.0 → 0.35.2, `wry` 0.55.0 → 0.55.1 (all transitives of `tauri-runtime-wry` / `plist` / `wayland-scanner`). Lockfile-only, no manifest edits, `cargo check` clean.
 - Repo-root cleanup: deleted accidental `package.json` (three nonsense deps `and` / `dev` / `pnpm`), its `pnpm-lock.yaml`, and `node_modules/`. Real package manifests live in `app/main/` and `core_lib/`; root was junk from a stray `pnpm add` in the wrong directory.
 - Documented `electron@^41.5.0` pnpm override in `app/main/package.json`. Not a CVE pin — `@vue/devtools-electron@8.1.1` (dev-only, gated behind `pnpm devtools` / `dev:devtools`) defaults to `electron@^36.9.4`; the override forces current-latest `41.5.0` to keep the devtools window on a recent Chromium. Consistent with the "everything to latest" sweep in `beb355e`. Bump alongside future electron stable releases; safe to drop entirely if/when `@vue/devtools-electron` is removed from `devDependencies`.
 - `btleplug` 0.11 → 0.12 (no source changes — only `CentralEvent` match in `core_lib/src/hdl/ble.rs` already had a `_ =>` wildcard, so the new `RssiUpdate` / `DeviceServicesModified` variants are absorbed; no `btleplug::Error` matches in the tree). Compile-clean in `core_lib --features experimental` and in `src-tauri`. Validated at runtime: `BleListener` started cleanly and a real outbound transfer to a phone peer ran end-to-end (`Finished` state, files delivered).
