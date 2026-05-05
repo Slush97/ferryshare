@@ -12,6 +12,23 @@ html, body, #app {
     -webkit-perspective: 1000;
 }
 
+/* One-shot unfold on app load — the page settles onto the desk like a letter
+   being opened. scaleY-from-top + brief fade. Fires once per real load;
+   hot-reloads don't retrigger because the element identity is preserved. */
+#app {
+    animation: paper-unfold 320ms ease-out;
+    transform-origin: top center;
+}
+
+@keyframes paper-unfold {
+    from { opacity: 0; transform: scaleY(0.92) translateY(-8px); }
+    to   { opacity: 1; transform: scaleY(1)    translateY(0);    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #app { animation: none; }
+}
+
 /* v4 preflight removed `cursor: pointer` on buttons; restore it for non-disabled
    interactive elements so clickable affordance matches the v3 baseline. */
 @layer base {
