@@ -12,6 +12,17 @@ html, body, #app {
     -webkit-perspective: 1000;
 }
 
+/* v4 preflight removed `cursor: pointer` on buttons; restore it for non-disabled
+   interactive elements so clickable affordance matches the v3 baseline. */
+@layer base {
+    button:not(:disabled),
+    [role="button"]:not([aria-disabled="true"]),
+    summary,
+    label[for] {
+        cursor: pointer;
+    }
+}
+
 /* Scrollbar */
 *::-webkit-scrollbar { width: 10px; height: 10px; }
 *::-webkit-scrollbar-track { background: transparent; }
