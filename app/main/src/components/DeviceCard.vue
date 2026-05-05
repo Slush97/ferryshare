@@ -85,7 +85,7 @@ function viewFile(path: string) {
 			</div>
 
 			<div v-else-if="isInProgress">
-				<p class="mt-2 italic">
+				<p class="mt-2 font-serif italic text-ink-700 dark:text-ink-100">
 					{{ isSending ? 'Sending…' : 'Receiving…' }}
 				</p>
 				<p
@@ -115,7 +115,7 @@ function viewFile(path: string) {
 					</div>
 
 					<div class="flex-1 min-w-0 flex flex-col gap-1">
-						<p class="text-xs italic text-ink-500 dark:text-ink-300">
+						<p class="text-xs font-serif italic text-ink-500 dark:text-ink-300">
 							Received <span v-if="item.text_type">text</span>
 						</p>
 						<!-- File list (skipped when thumbnails already represent every file) -->
@@ -140,7 +140,7 @@ function viewFile(path: string) {
 						</p>
 						<p
 							v-if="item.destination && item.files"
-							class="overflow-hidden whitespace-nowrap text-ellipsis text-xs italic text-ink-500 dark:text-ink-300">
+							class="overflow-hidden whitespace-nowrap text-ellipsis text-xs font-serif italic text-ink-500 dark:text-ink-300">
 							Saved to {{ item.destination }}
 						</p>
 					</div>
@@ -172,7 +172,7 @@ function viewFile(path: string) {
 			</div>
 
 			<div v-else-if="terminalState">
-				<p class="mt-2 italic text-ink-500 dark:text-ink-300">
+				<p class="mt-2 font-serif italic text-ink-500 dark:text-ink-300">
 					{{ terminalState }}
 				</p>
 				<div class="flex flex-row flex-wrap justify-end gap-2 mt-2">

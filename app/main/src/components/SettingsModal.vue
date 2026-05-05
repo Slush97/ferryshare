@@ -46,7 +46,8 @@ onBeforeUnmount(() => document.removeEventListener('keydown', onKeydown));
 				class="fx-modal-card paper-card border border-surface-200/60 dark:border-surface-700
 				       rounded-md p-4 w-full max-w-sm max-h-full overflow-y-auto
 				       text-ink-800 dark:text-ink-100 shadow-2xl">
-				<div class="flex flex-row justify-between items-center">
+				<div class="flex flex-row justify-between items-center pb-3 mb-1
+				            border-b border-accent-700/15 dark:border-accent-300/15">
 					<h3 id="settings-title" class="font-serif text-xl">
 						Settings
 					</h3>

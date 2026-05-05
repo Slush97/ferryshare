@@ -29,7 +29,10 @@ async function close() { await getCurrentWindow().close(); }
 		class="select-none flex items-center justify-between h-9 px-3
 		       bg-surface-100 dark:bg-surface-900
 		       border-b border-surface-200 dark:border-surface-800
-		       text-ink-700 dark:text-ink-100">
+		       text-ink-700 dark:text-ink-100
+		       shadow-[0_2px_4px_-2px_rgba(58,44,24,0.18)]
+		       dark:shadow-[0_2px_6px_-2px_rgba(0,0,0,0.5)]
+		       relative z-10">
 		<div data-tauri-drag-region class="flex items-center gap-2 text-xs font-serif tracking-wide">
 			<div class="w-2 h-2 rounded-full bg-accent-600 dark:bg-accent-300" />
 			<span data-tauri-drag-region>RQuickShare</span>

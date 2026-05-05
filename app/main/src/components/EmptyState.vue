@@ -46,7 +46,7 @@ async function pickFiles() {
 		<h3 class="font-serif text-xl sm:text-2xl tracking-wide text-ink-800 dark:text-ink-100 text-center">
 			Ready to receive
 		</h3>
-		<p class="text-xs sm:text-sm italic text-ink-500 dark:text-ink-300 text-center">
+		<p class="text-xs sm:text-sm font-serif italic text-ink-500 dark:text-ink-300 text-center">
 			Listening for nearby devices
 		</p>
 

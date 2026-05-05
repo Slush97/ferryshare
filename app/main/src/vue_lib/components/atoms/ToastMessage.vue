@@ -9,12 +9,9 @@ const props = defineProps({
 });
 
 const TONES: Record<ToastType, string> = {
-	[ToastType.Success]:
-		'bg-accent-50 dark:bg-accent-500/15 text-accent-900 dark:text-accent-200 border-accent-200 dark:border-accent-500/30',
-	[ToastType.Error]:
-		'bg-red-50 dark:bg-red-500/15 text-red-900 dark:text-red-200 border-red-200 dark:border-red-500/30',
-	[ToastType.Info]:
-		'bg-surface-100 dark:bg-surface-800 text-ink-800 dark:text-ink-100 border-surface-200 dark:border-surface-700',
+	[ToastType.Success]: 'border-l-accent-500',
+	[ToastType.Error]:   'border-l-red-600',
+	[ToastType.Info]:    'border-l-ink-400 dark:border-l-ink-300',
 };
 
 const cls = computed(() => TONES[props.type]);
@@ -22,7 +19,11 @@ const cls = computed(() => TONES[props.type]);
 
 <template>
 	<div
-		class="w-full p-3 rounded-md shadow-md border text-sm"
+		class="w-full p-3 rounded-md shadow-md text-sm
+		       bg-surface-0 dark:bg-surface-800
+		       text-ink-800 dark:text-ink-100
+		       border border-surface-200 dark:border-surface-700
+		       border-l-4"
 		:class="cls">
 		{{ message }}
 	</div>
