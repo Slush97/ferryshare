@@ -2,18 +2,12 @@
 
 Priority order — top item is the one to do next.
 
-## 1. Tailwind 3 → 4
-- **Why:** independent of the Rust side; pure frontend migration.
-- **Scope:** CSS-first config rewrite, theme tokens move into CSS, `@tailwindcss/typography` and other plugins need v4-compatible versions.
-- **Risk:** visual regressions across every component; the `paper-themed redesign` styling is tightly coupled to v3 token shape.
-- **Validation:** in-browser walk-through of every screen; deserves its own dedicated session.
-
-## 2. RustCrypto bundle: `sha2` 0.10 → 0.11, `hmac` 0.12 → 0.13, `hkdf` 0.12 → 0.13
+## 1. RustCrypto bundle: `sha2` 0.10 → 0.11, `hmac` 0.12 → 0.13, `hkdf` 0.12 → 0.13
 - **Why batched:** they share trait versions; mixing majors will cause type mismatches.
 - **Risk:** all three are used in the Nearby Share handshake / key-derivation path. Compiles fine ≠ pairs fine — silent semantic mismatch wouldn't fail to build, it would fail to authenticate.
 - **Validation:** real-device round-trip required (send + receive in both directions).
 
-## 3. `btleplug` 0.11 → 0.12
+## 2. `btleplug` 0.11 → 0.12
 - **Why:** BLE listener for advertisement detection.
 - **Risk:** majors here historically rework the adapter/event API; regressions only show with a real Bluetooth peer.
 - **Validation:** Linux + macOS + Windows ideally; minimum is one BLE-advertising peer.
@@ -23,6 +17,7 @@ Priority order — top item is the one to do next.
 - **`electron@^41.5.0` pnpm override** — added in `beb355e` without rationale. Likely pinning `@vue/devtools-electron`'s transitive past a CVE; worth confirming and documenting (or dropping if no longer needed).
 
 ## Done this session
+- Tailwind 3 → 4 (CSS-first config, dropped postcss-import / postcss-nesting / autoprefixer, `@tailwindcss/vite`, `@custom-variant dark`, `theme()` → `var()`, fonts to `<link>`) plus a paper-themed UI polish pass (wider empty-state click-target dropzone, letterhead settings header, title-bar fold shadow, diary serif italics, paper-toned toasts, calmer postmark pulse, `#app` unfold-on-open) — `97542e4`..`9a0e123`
 - `postcss` 8.5.13 → 8.5.14 — `eec745a`
 - `tokio` 1.52.1 → 1.52.2 (both crates) — `eec745a`
 - `notify-rust` 4.16.1 → 4.17.0 — `eec745a`
