@@ -1,3 +1,5 @@
+@layer components {
+
 /* === Status indicator (pulse) ================================ */
 .status-indicator {
     position: relative;
@@ -100,3 +102,6 @@
     @apply stroke-accent-600 dark:stroke-accent-300;
 }
 .error circle.bg, .error circle.fg { @apply !stroke-red-700 dark:!stroke-red-400; }
+
+}
+

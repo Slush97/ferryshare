@@ -1,3 +1,5 @@
+@layer components {
+
 /*
  * Single layer of fine fractal-noise speckle, shared across page and cards
  * so the whole UI feels like one continuous paper.
@@ -16,6 +18,7 @@
 
 /* Sheet of paper on the desk — same fiber, slightly brighter base, hairline border + soft shadow */
 .paper-card {
+    position: relative;
     background-color: #fcf5e2;
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 220'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.22 0 0 0 0 0.16 0 0 0 0 0.09 0 0 0 0.16 0'/></filter><rect width='100%25' height='100%25' filter='url(%23p)'/></svg>");
     background-size: 220px 220px;
@@ -25,6 +28,61 @@
         0 1px 0 rgba(0, 0, 0, 0.04),
         0 6px 18px -8px rgba(58, 44, 24, 0.20),
         0 1px 2px rgba(58, 44, 24, 0.10);
+}
+
+/*
+ * Airmail chevron border — faint diagonal sepia hatching wrapping all four
+ * edges of every paper-card, signalling "this is a parcel in transit."
+ * Single ::before draws the gradient across the whole element, then a
+ * frame mask (outer rect minus inner content-box rect) keeps it only along
+ * the border. Use-sites that need clean edges can opt out with .no-airmail.
+ */
+.paper-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    padding: 4px;
+    border-radius: inherit;
+    background: repeating-linear-gradient(
+        135deg,
+        rgba(160, 90, 43, 0.22) 0,
+        rgba(160, 90, 43, 0.22) 3px,
+        transparent 3px,
+        transparent 6px
+    );
+    -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+            mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    /* Stripe period along the gradient direction = 6px; one full cycle along
+       the (1,1) diagonal is 6√2 ≈ 8.485px, so this loops seamlessly. */
+    animation: airmail-drift 8s linear infinite;
+}
+.dark .paper-card::before {
+    background: repeating-linear-gradient(
+        135deg,
+        rgba(212, 160, 91, 0.20) 0,
+        rgba(212, 160, 91, 0.20) 3px,
+        transparent 3px,
+        transparent 6px
+    );
+}
+.paper-card.no-airmail::before { content: none; }
+
+}
+
+@keyframes airmail-drift {
+    from { background-position: 0 0; }
+    to   { background-position: 8.485px 8.485px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .paper-card::before { animation: none; }
 }
 .dark .paper-card {
     background-color: #463c2d;

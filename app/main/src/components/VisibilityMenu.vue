@@ -92,7 +92,7 @@ onBeforeUnmount(() => document.removeEventListener('mousedown', onDocMouseDown))
 			class="inline-flex items-center gap-2 h-10 px-3 rounded-md text-sm font-medium
 			       max-w-full min-w-0
 			       border border-surface-200 dark:border-surface-700
-			       bg-surface-0/70 dark:bg-surface-800/70
+			       bg-surface-0 dark:bg-surface-800
 			       hover:bg-accent-700/5 dark:hover:bg-accent-300/5
 			       text-ink-700 dark:text-ink-100 transition-colors
 			       focus-visible:ring-2 focus-visible:ring-accent-500 outline-none"
@@ -116,7 +116,7 @@ onBeforeUnmount(() => document.removeEventListener('mousedown', onDocMouseDown))
 			<div
 				v-if="open"
 				role="listbox"
-				class="paper-card absolute right-0 mt-2 w-72 z-20 rounded-md
+				class="paper-card no-airmail absolute right-0 mt-2 w-72 z-20 rounded-md
 				       border border-surface-200 dark:border-surface-700
 				       overflow-hidden shadow-xl origin-top-right">
 				<button
