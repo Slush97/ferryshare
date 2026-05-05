@@ -1,0 +1,28 @@
+@layer utilities {
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+}
+
+html, body, #app {
+    font-family: var(--font-sans);
+    outline: 1px solid transparent;
+    -webkit-backface-visibility: hidden;
+    transform: translateZ(0);
+    will-change: transform;
+    -webkit-perspective: 1000;
+}
+
+/* Scrollbar */
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb {
+    background: rgba(94, 80, 57, 0.35);
+    border-radius: 8px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+    background: rgba(94, 80, 57, 0.55);
+    background-clip: padding-box;
+    border: 2px solid transparent;
+}
