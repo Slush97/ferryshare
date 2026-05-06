@@ -107,9 +107,7 @@ async fn main() -> Result<(), anyhow::Error> {
             }
 
             // Initialize system Tray
-            let name = MenuItemBuilder::new("Ferry")
-                .enabled(false)
-                .build(app)?;
+            let name = MenuItemBuilder::new("Ferry").enabled(false).build(app)?;
             let show = MenuItemBuilder::with_id("show", "Show").build(app)?;
             let quit = MenuItemBuilder::with_id("quit", "Quit").build(app)?;
             let menu = MenuBuilder::new(app)

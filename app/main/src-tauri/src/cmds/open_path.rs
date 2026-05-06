@@ -1,6 +1,8 @@
 use std::path::PathBuf;
 
-const URL_SCHEMES: &[&str] = &["http://", "https://", "mailto:", "tel:", "ftp://", "file://"];
+const URL_SCHEMES: &[&str] = &[
+    "http://", "https://", "mailto:", "tel:", "ftp://", "file://",
+];
 
 #[tauri::command]
 pub fn open_path(path: String) -> Result<(), String> {

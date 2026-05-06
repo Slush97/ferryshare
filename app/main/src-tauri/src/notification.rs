@@ -1,10 +1,10 @@
 #[cfg(target_os = "linux")]
-use notify_rust::Notification;
-#[cfg(target_os = "linux")]
 use ferry_lib::{
     channel::{ChannelAction, ChannelDirection, ChannelMessage},
     Visibility,
 };
+#[cfg(target_os = "linux")]
+use notify_rust::Notification;
 use tauri::AppHandle;
 #[cfg(target_os = "linux")]
 use tauri::Manager;
