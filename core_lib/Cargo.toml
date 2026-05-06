@@ -1,6 +1,6 @@
 [package]
 name = "ferry_lib"
-version = "0.11.5"
+version = "0.12.0"
 edition = "2021"
 authors = ["martichou", "slush97"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
