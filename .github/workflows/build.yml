@@ -92,7 +92,10 @@ jobs:
           rm -rf ${{ github.workspace }}/${{ matrix.target_path }}/src-tauri/target/debug/bundle/
           cd ./${{ matrix.target_path }}
           pnpm install
-          pnpm build:debug
+          # Override createUpdaterArtifacts for per-push CI — those require
+          # signing keys that we only inject during release builds (release.yml).
+          pnpm vite:build
+          pnpm tauri build -d --config '{"bundle":{"createUpdaterArtifacts":false}}'
           cd ${{ github.workspace }}
           ./rename_build.sh ${{ github.workspace }}/${{ matrix.target_path }}/src-tauri/target/debug/bundle/ ${{ matrix.name }}
 
