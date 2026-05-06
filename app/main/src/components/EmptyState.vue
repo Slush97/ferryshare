@@ -20,18 +20,15 @@ async function pickFiles() {
 </script>
 
 <template>
+	<div class="flex-1 w-full flex items-center justify-center px-2 py-4 sm:px-4 sm:py-6">
 	<button
 		type="button"
 		@click="pickFiles"
-		class="empty-state group flex-1 w-full flex flex-col items-center justify-center gap-y-3 py-6 px-4 relative
+		class="empty-state group paper-card paper-card-pressable
+		       w-full max-w-xl flex flex-col items-center justify-center gap-y-3 py-10 px-6
 		       text-left rounded-lg
-		       border-2 border-dashed transition-colors
-		       border-accent-700/15 dark:border-accent-300/15
-		       hover:border-accent-700/40 dark:hover:border-accent-300/40
-		       hover:bg-accent-700/[0.025] dark:hover:bg-accent-300/[0.04]
 		       focus-visible:outline-none
-		       focus-visible:border-accent-700/55 dark:focus-visible:border-accent-300/55
-		       focus-visible:bg-accent-700/[0.04] dark:focus-visible:bg-accent-300/[0.05]">
+		       focus-visible:ring-2 focus-visible:ring-accent-700/45 dark:focus-visible:ring-accent-300/45">
 		<!-- Postmark: dashed perforation + inner ring around the pulse -->
 		<div class="relative aspect-square w-[clamp(5rem,28vh,14rem)] flex items-center justify-center pointer-events-none">
 			<svg
@@ -63,13 +60,14 @@ async function pickFiles() {
 
 		<div
 			class="mt-4 inline-flex items-center gap-2 text-xs sm:text-sm
-			       text-ink-600 dark:text-ink-200 transition-colors
+			       text-ink-500 dark:text-ink-300 transition-colors
 			       group-hover:text-accent-700 dark:group-hover:text-accent-300
 			       group-focus-visible:text-accent-700 dark:group-focus-visible:text-accent-300">
-			<Icon name="upload" :size="18" />
-			<span>Drop files anywhere or <span class="font-medium underline-offset-2 underline">click to send</span></span>
+			<Icon name="upload" :size="16" />
+			<span>Drop files here or click to browse</span>
 		</div>
 	</button>
+	</div>
 </template>
 
 <style scoped>

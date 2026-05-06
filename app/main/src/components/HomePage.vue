@@ -92,7 +92,7 @@ onBeforeUnmount(() => {
 
 		<Heading :open-url="openUrl" />
 
-		<div class="relative flex-1 min-h-0 overflow-y-auto">
+		<div class="doodle-overlay flex-1 min-h-0 overflow-y-auto">
 			<div class="min-h-full flex flex-col p-3 sm:p-4 md:p-8">
 				<OutboundPanel />
 				<ContentStatus />
