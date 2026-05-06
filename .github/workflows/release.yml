@@ -101,9 +101,17 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p sigs
-          # Download all .sig files for this tag's release
-          gh release download "$TAG" --repo "$REPO" --pattern "*.sig" --dir sigs
+          # Download all .sig files for this tag's release. `gh release
+          # download` exits 1 when no files match the pattern, which would
+          # kill us under `set -e` — tolerate that and continue with an
+          # empty platforms object so the rest of the pipeline doesn't fail.
+          gh release download "$TAG" --repo "$REPO" --pattern "*.sig" --dir sigs || true
           ls -la sigs
+
+          if ! ls sigs/*.sig >/dev/null 2>&1; then
+            echo "No .sig files in release — updater artifacts likely disabled. Skipping manifest upload."
+            exit 0
+          fi
 
           version="${TAG#v}"
           pub_date="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
