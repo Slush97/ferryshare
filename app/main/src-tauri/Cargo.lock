@@ -1443,7 +1443,7 @@ dependencies = [
 
 [[package]]
 name = "ferry_lib"
-version = "0.12.0"
+version = "0.13.0"
 dependencies = [
  "anyhow",
  "base64 0.22.1",
@@ -1479,7 +1479,7 @@ dependencies = [
 
 [[package]]
 name = "ferryshare"
-version = "0.12.0"
+version = "0.13.0"
 dependencies = [
  "anyhow",
  "fern",
