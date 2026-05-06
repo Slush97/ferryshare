@@ -68,6 +68,9 @@ jobs:
           echo "GLIBC version: ${GLIBC_VER}"
 
       - name: Build Vite + Tauri
+        env:
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
         run: |
           rm -rf ${{ github.workspace }}/${{ matrix.target_path }}/src-tauri/target/release/bundle/
           cd ./${{ matrix.target_path }}
@@ -82,4 +85,59 @@ jobs:
           tag_name: ${{ github.ref_name }}
           files: |
             ${{ github.workspace }}/${{ matrix.target_path }}/src-tauri/target/release/bundle/*/ferry-${{ matrix.name }}*
-          fail_on_unmatched_files: true
+            ${{ github.workspace }}/${{ matrix.target_path }}/src-tauri/target/release/bundle/*/*.app.tar.gz
+            ${{ github.workspace }}/${{ matrix.target_path }}/src-tauri/target/release/bundle/*/*.app.tar.gz.sig
+          fail_on_unmatched_files: false
+
+  publish_manifest:
+    needs: build_release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate latest.json from release assets
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ github.ref_name }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          mkdir -p sigs
+          # Download all .sig files for this tag's release
+          gh release download "$TAG" --repo "$REPO" --pattern "*.sig" --dir sigs
+          ls -la sigs
+
+          version="${TAG#v}"
+          pub_date="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+
+          base_url="https://github.com/${REPO}/releases/download/${TAG}"
+
+          # Locate per-platform sig files. Build matrix is linux-x86_64
+          # (ubuntu-24.04) + darwin-aarch64 (macos-latest). Intel Mac is no
+          # longer built, so darwin-x86_64 is omitted from the manifest.
+          linux_sig=$(ls sigs/*amd64*.AppImage.sig 2>/dev/null | head -n1 || true)
+          darwin_arm_sig=$(ls sigs/*aarch64*.app.tar.gz.sig 2>/dev/null | head -n1 || true)
+
+          jq_obj=$(jq -n --arg v "$version" --arg d "$pub_date" \
+            '{ version: $v, notes: ("Release " + $v), pub_date: $d, platforms: {} }')
+
+          add_platform() {
+            local key="$1" sig_file="$2" bundle_name="$3"
+            if [ -n "$sig_file" ] && [ -f "$sig_file" ]; then
+              local sig_content
+              sig_content=$(cat "$sig_file")
+              jq_obj=$(echo "$jq_obj" | jq \
+                --arg k "$key" --arg sig "$sig_content" --arg url "${base_url}/${bundle_name}" \
+                '.platforms[$k] = { signature: $sig, url: $url }')
+            else
+              echo "WARN: no signature file for $key (looked at: '$sig_file')"
+            fi
+          }
+
+          # Bundle filenames mirror what rename_build.sh produces (Linux),
+          # and Tauri's default for macOS .app.tar.gz.
+          add_platform "linux-x86_64"   "$linux_sig"      "$(basename "${linux_sig%.sig}" 2>/dev/null || echo "")"
+          add_platform "darwin-aarch64" "$darwin_arm_sig" "$(basename "${darwin_arm_sig%.sig}" 2>/dev/null || echo "")"
+
+          echo "$jq_obj" > latest.json
+          cat latest.json
+
+          gh release upload "$TAG" latest.json --repo "$REPO" --clobber

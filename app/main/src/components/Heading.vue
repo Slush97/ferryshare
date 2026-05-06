@@ -1,14 +1,38 @@
 <script setup lang="ts">
-import { AppButton, IconButton, useAppStore, useThemeStore } from '../vue_lib';
+import { check } from '@tauri-apps/plugin-updater';
+import { relaunch } from '@tauri-apps/plugin-process';
+import { AppButton, IconButton, ToastType, useAppStore, useThemeStore, useToastStore } from '../vue_lib';
 import VisibilityMenu from './VisibilityMenu.vue';
+
+const RELEASES_URL = 'https://github.com/Slush97/ferryshare/releases/latest';
 
 const app = useAppStore();
 const theme = useThemeStore();
+const toasts = useToastStore();
 
-defineProps<{ openUrl: (url: string) => void }>();
+const props = defineProps<{ openUrl: (url: string) => void }>();
 
 function toggleTheme() {
 	theme.setMode(theme.isDark ? 'light' : 'dark');
+}
+
+async function handleUpdate() {
+	try {
+		const update = await check();
+		if (!update) {
+			// Plugin says we're current; if our GitHub-API check disagreed,
+			// open the releases page so the user can grab it manually.
+			props.openUrl(RELEASES_URL);
+			return;
+		}
+		toasts.addToast(`Downloading v${update.version}…`, ToastType.Info);
+		await update.downloadAndInstall();
+		await relaunch();
+	} catch (e) {
+		console.error('updater failed, falling back to releases page', e);
+		toasts.addToast('Could not auto-update — opening releases page', ToastType.Error);
+		props.openUrl(RELEASES_URL);
+	}
 }
 </script>
 
@@ -31,7 +55,7 @@ function toggleTheme() {
 			<AppButton
 				v-if="app.newVersion"
 				size="sm"
-				@click="openUrl('https://github.com/Slush97/ferryshare/releases/latest')">
+				@click="handleUpdate">
 				<span class="text-accent-700 dark:text-accent-300">Update</span>
 				<span class="text-xs hidden sm:inline">v{{ app.version }} → v{{ app.newVersion }}</span>
 			</AppButton>
